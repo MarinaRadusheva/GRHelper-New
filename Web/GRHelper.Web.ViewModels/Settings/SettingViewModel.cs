@@ -1,9 +1,9 @@
 ﻿namespace GRHelper.Web.ViewModels.Settings
 {
+    using AutoMapper;
+
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
-
-    using AutoMapper;
 
     public class SettingViewModel : IMapFrom<Setting>, IHaveCustomMappings
     {

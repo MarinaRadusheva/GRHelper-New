@@ -5,6 +5,7 @@
     using System.IO;
     using System.Threading.Tasks;
 
+    using CommandLine;
     using GRHelper.Data;
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Repositories;
@@ -13,9 +14,6 @@
     using GRHelper.Data.Seeding;
     using GRHelper.Services.Data;
     using GRHelper.Services.Messaging;
-
-    using CommandLine;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
