@@ -25,8 +25,8 @@
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var admin = new ApplicationUser
             {
-                UserName = "Admin",
-                NormalizedUserName = "ADMIN",
+                UserName = adminEmail,
+                NormalizedUserName = adminEmail.ToUpper(),
                 Email = adminEmail,
                 NormalizedEmail = adminEmail.ToUpper(),
                 EmailConfirmed = true,
