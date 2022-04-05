@@ -1,0 +1,33 @@
+[
+  {
+
+    "Name": "Reservations",
+    "MainCategory": "Dining"
+  },
+  {
+
+    "Name": "Room Service",
+    "MainCategory": "Dining"
+  },
+  {
+
+    "Name": "Cleaning service",
+    "MainCategory": "Housekeeping"
+  },
+  {
+
+    "Name": "Turndown service",
+    "MainCategory": "Housekeeping"
+  },
+  {
+
+    "Name": "Golf cart",
+    "MainCategory": "Transport"
+  },
+  {
+
+    "Name": "Transfer",
+    "MainCategory": "Transport"
+  }
+
+]

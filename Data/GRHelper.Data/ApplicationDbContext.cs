@@ -24,7 +24,17 @@
         {
         }
 
-        public DbSet<Setting> Settings { get; set; }
+        public DbSet<Villa> Villas { get; set; }
+
+        public DbSet<Reservation> Reservations { get; set; }
+
+        public DbSet<MainCategory> MainCategories { get; set; }
+
+        public DbSet<SubCategory> SubCategories { get; set; }
+
+        public DbSet<HotelService> HotelServices { get; set; }
+
+        public DbSet<Request> Requests { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 
