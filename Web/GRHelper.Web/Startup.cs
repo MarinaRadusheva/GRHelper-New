@@ -8,6 +8,7 @@
     using GRHelper.Data.Models;
     using GRHelper.Data.Repositories;
     using GRHelper.Data.Seeding;
+    using GRHelper.Services.Data;
     using GRHelper.Services.Mapping;
     using GRHelper.Services.Messaging;
     using GRHelper.Web.ViewModels;
@@ -63,6 +64,7 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
+            services.AddTransient<IReservationsService, ReservationsService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

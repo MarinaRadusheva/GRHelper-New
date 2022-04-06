@@ -45,4 +45,19 @@
     <ProjectReference Include="..\GRHelper.Data.Models\GRHelper.Data.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Seeding\SeedData\HotelServices.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Seeding\SeedData\MainCategories.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Seeding\SeedData\SubCategories.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Seeding\SeedData\Villas.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

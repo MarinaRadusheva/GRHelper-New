@@ -20,12 +20,12 @@
         [Required]
         public int VillaId { get; set; }
 
-        [Required]
         public virtual Villa Villa { get; set; }
 
         [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCount, ErrorMessage = "Please enter a valid guest count.")]
         public int AdultsCount { get; set; }
 
+        [Range(DataConstants.MinGuestCount, DataConstants.MaxChildrenCount, ErrorMessage = "Please enter a valid children count")]
         public int? ChildrenCount { get; set; }
 
         [Required]
@@ -33,9 +33,11 @@
         public string Email { get; set; }
 
         [Required]
-        public string Password { get; init; } = HelperMethods.GeneratePassword(DataConstants.ResPasswordLength);
+        public string Password { get; init; }
 
-        public ApplicationUser Guest { get; set; }
+        public string GuestId { get; set; }
+
+        public virtual ApplicationUser Guest { get; set; }
 
         public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
     }

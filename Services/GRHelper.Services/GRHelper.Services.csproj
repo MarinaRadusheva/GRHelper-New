@@ -18,4 +18,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\GRHelper.Data.Common\GRHelper.Data.Common.csproj" />
+    <ProjectReference Include="..\..\Data\GRHelper.Data.Models\GRHelper.Data.Models.csproj" />
+  </ItemGroup>
+
 </Project>

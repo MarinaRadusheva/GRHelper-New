@@ -1,0 +1,12 @@
+﻿
+@{
+    this.ViewData["Title"] = "All Reservations";
+}
+
+<h1>All Reservations</h1>
+<h2>There are @Model reservations.</h2>
+<button id="createReservation">
+    <a asp-area="Administration" asp-controller="Reservations" asp-action="Create" title="Create reservation">
+        Create New
+    </a>
+</button>

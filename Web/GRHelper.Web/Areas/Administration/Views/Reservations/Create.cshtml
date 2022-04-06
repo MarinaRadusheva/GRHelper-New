@@ -1,0 +1,39 @@
+﻿@model GRHelper.Web.ViewModels.Administration.Reservations.CreateReservationInputModel
+@{
+    this.ViewData["Title"] = "Create A Reservation";
+}
+
+<h1>Create a new reservation</h1>
+<form method="post" col-md=4>
+    <div class="form-group">
+        <label asp-for="From"></label>
+        <input asp-for="From" />
+        <span asp-validation-for="From"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="To"></label>
+        <input asp-for="To" />
+        <span asp-validation-for="To"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="AdultsCount"></label>
+        <input asp-for="AdultsCount" />
+        <span asp-validation-for="AdultsCount"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ChildrenCount"></label>
+        <input asp-for="ChildrenCount" />
+        <span asp-validation-for="ChildrenCount"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Villa"></label>
+        <input asp-for="Villa" />
+        <span asp-validation-for="Villa"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <button type="submit">Submit</button>
+</form>

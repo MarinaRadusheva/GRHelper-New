@@ -1,4 +1,4 @@
-﻿namespace GRHelper.Data.Common
+﻿namespace GRHelper.Services.Data
 {
     using System;
     using System.Text;
