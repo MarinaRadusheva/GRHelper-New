@@ -1,6 +1,5 @@
 ﻿namespace GRHelper.Services.Data
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -11,5 +10,9 @@
         Task CreateAsync(CreateReservationInputModel input);
 
         int GetCount();
+
+        IEnumerable<T> All<T>();
+
+        Task<T> GetById<T>(int id);
     }
 }

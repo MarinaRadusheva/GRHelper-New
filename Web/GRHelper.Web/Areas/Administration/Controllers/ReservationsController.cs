@@ -1,9 +1,10 @@
 ﻿namespace GRHelper.Web.Areas.Administration.Controllers
 {
+    using System.Threading.Tasks;
+
     using GRHelper.Services.Data;
     using GRHelper.Web.ViewModels.Administration.Reservations;
     using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
 
     public class ReservationsController : AdministrationController
     {
@@ -16,8 +17,8 @@
 
         public IActionResult All()
         {
-            int count = this.reservationsService.GetCount();
-            return this.View(count);
+            var allReservations = this.reservationsService.All<AllReservationsViewModel>();
+            return this.View(allReservations);
         }
 
         public IActionResult Create()
@@ -36,6 +37,12 @@
             await this.reservationsService.CreateAsync(model);
 
             return this.RedirectToAction(nameof(this.All));
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var reservation = await this.reservationsService.GetById<ReservationDetailsViewModel>(id);
+            return this.View(reservation);
         }
     }
 }

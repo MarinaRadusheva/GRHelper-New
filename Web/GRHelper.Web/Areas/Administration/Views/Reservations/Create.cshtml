@@ -4,36 +4,36 @@
 }
 
 <h1>Create a new reservation</h1>
-<form method="post" col-md=4>
+<form method="post">
     <div class="form-group">
         <label asp-for="From"></label>
-        <input asp-for="From" />
-        <span asp-validation-for="From"></span>
+        <input asp-for="From" class="form-control" />
+        <span asp-validation-for="From" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="To"></label>
-        <input asp-for="To" />
-        <span asp-validation-for="To"></span>
+        <input asp-for="To" class="form-control" />
+        <span asp-validation-for="To" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="AdultsCount"></label>
-        <input asp-for="AdultsCount" />
-        <span asp-validation-for="AdultsCount"></span>
+        <input asp-for="AdultsCount" class="form-control" />
+        <span asp-validation-for="AdultsCount" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="ChildrenCount"></label>
-        <input asp-for="ChildrenCount" />
-        <span asp-validation-for="ChildrenCount"></span>
+        <input asp-for="ChildrenCount" class="form-control" />
+        <span asp-validation-for="ChildrenCount" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Villa"></label>
-        <input asp-for="Villa" />
-        <span asp-validation-for="Villa"></span>
+        <input asp-for="Villa" class="form-control" />
+        <span asp-validation-for="Villa" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <button type="submit">Submit</button>
 </form>

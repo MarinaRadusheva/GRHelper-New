@@ -1,0 +1,43 @@
+﻿@model GRHelper.Web.ViewModels.Administration.Reservations.ReservationDetailsViewModel
+@{
+    this.ViewData["Title"] = "All Reservations";
+}
+
+<h1>Reservation details</h1>
+<table>
+    <tr>
+        <td>
+            From: @Model.From
+        </td>
+        <td>
+            To: @Model.To
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Name:
+        </td>
+        <td>
+            Email: @Model.Email
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Reservation No:
+        </td>
+        <td>
+            Villa: @Model.VillaNumber
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Adults: @Model.AdultsCount
+        </td>
+        <td>
+            Children: @Model.ChildrenCount
+        </td>
+    </tr>
+</table>
+
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info ml-3">Edit</a>
+                    <a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger ml-3">Delete</a>
