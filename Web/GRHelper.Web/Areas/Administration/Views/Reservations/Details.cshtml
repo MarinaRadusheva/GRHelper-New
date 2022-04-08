@@ -37,7 +37,31 @@
             Children: @Model.ChildrenCount
         </td>
     </tr>
+    <tr>
+        <td>
+        <button onclick=ShowPassword()>
+            Show Password:
+        </button>
+        <span id="password" style="display:none">
+            @Model.Password
+        </span>
+        </td>
+        <td>
+            <button>
+            Resend password
+            </button>
+        </td>
+    </tr>
 </table>
 
+
 <a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info ml-3">Edit</a>
-                    <a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger ml-3">Delete</a>
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger ml-3">Delete</a>
+
+@section Scripts {
+    <script>
+        function ShowPassword(){
+            document.getElementById('password').style.display="block";
+        }
+    </script>
+}

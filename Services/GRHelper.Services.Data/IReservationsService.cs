@@ -13,6 +13,10 @@
 
         IEnumerable<T> All<T>();
 
-        Task<T> GetById<T>(int id);
+        Task<T> GetByIdAsync<T>(int id);
+
+        Task EditAsync(EditReservationInputModel input);
+
+        Task DeleteAsync(int id);
     }
 }

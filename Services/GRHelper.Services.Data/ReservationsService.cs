@@ -1,5 +1,6 @@
 ﻿namespace GRHelper.Services.Data
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -51,7 +52,38 @@
             await this.reservations.SaveChangesAsync();
         }
 
-        public async Task<T> GetById<T>(int id)
+        public async Task EditAsync(EditReservationInputModel input)
+        {
+            var reservation = this.reservations.All().FirstOrDefault(r => r.Id == input.Id);
+            if (reservation == null)
+            {
+                throw new NullReferenceException("Reservation does not exist");
+            }
+
+            reservation.From = input.From;
+            reservation.To = input.To;
+            reservation.Email = input.Email;
+            reservation.AdultsCount = input.AdultsCount;
+            reservation.ChildrenCount = input.ChildrenCount;
+            reservation.VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.VillaNumber == input.VillaNumber).Id;
+
+            this.reservations.Update(reservation);
+            await this.reservations.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            var reservation = this.reservations.All().FirstOrDefault(r => r.Id == id);
+            if (reservation == null)
+            {
+                throw new NullReferenceException("Reservation does not exist");
+            }
+
+            this.reservations.Delete(reservation);
+            await this.reservations.SaveChangesAsync();
+        }
+
+        public async Task<T> GetByIdAsync<T>(int id)
         {
             var reservation = this.reservations.AllAsNoTracking().Where(r => r.Id == id).To<T>().FirstOrDefault();
             return reservation;
