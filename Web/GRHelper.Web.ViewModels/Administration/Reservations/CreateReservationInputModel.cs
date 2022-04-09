@@ -24,7 +24,8 @@
         [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCount, ErrorMessage = "Please enter a valid guest count.")]
         public int AdultsCount { get; set; }
 
-        public int? ChildrenCount { get; set; }
+        [Range(DataConstants.MinChildrenCount, DataConstants.MaxChildrenCount, ErrorMessage = "Please enter a valid children count")]
+        public int ChildrenCount { get; set; }
 
         [Required]
         [EmailAddress]

@@ -30,7 +30,7 @@
 
         public int AdultsCount { get; set; }
 
-        public int? ChildrenCount { get; set; }
+        public int ChildrenCount { get; set; }
 
         public string Email { get; set; }
 

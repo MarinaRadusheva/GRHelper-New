@@ -18,6 +18,9 @@
         public DateTime To { get; set; }
 
         [Required]
+        public string Name { get; set; }
+
+        [Required]
         public int VillaId { get; set; }
 
         public virtual Villa Villa { get; set; }
@@ -25,8 +28,8 @@
         [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCount, ErrorMessage = "Please enter a valid guest count.")]
         public int AdultsCount { get; set; }
 
-        [Range(DataConstants.MinGuestCount, DataConstants.MaxChildrenCount, ErrorMessage = "Please enter a valid children count")]
-        public int? ChildrenCount { get; set; }
+        [Range(DataConstants.MinChildrenCount, DataConstants.MaxChildrenCount, ErrorMessage = "Please enter a valid children count")]
+        public int ChildrenCount { get; set; } = DataConstants.MinChildrenCount;
 
         [Required]
         [EmailAddress]
@@ -34,6 +37,8 @@
 
         [Required]
         public string Password { get; init; }
+
+        public bool Unlocked { get; set; } = false;
 
         public string GuestId { get; set; }
 
