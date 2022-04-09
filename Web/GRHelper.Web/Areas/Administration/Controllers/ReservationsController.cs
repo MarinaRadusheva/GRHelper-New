@@ -56,7 +56,7 @@
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(model.Id);
+                return this.View(model);
             }
 
             await this.reservationsService.EditAsync(model);

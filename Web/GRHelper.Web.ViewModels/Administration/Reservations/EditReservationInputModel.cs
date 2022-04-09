@@ -1,40 +1,43 @@
 ﻿namespace GRHelper.Web.ViewModels.Administration.Reservations
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+
     using AutoMapper;
+    using GRHelper.Data.Common;
     using GRHelper.Data.Common.Validation;
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class EditReservationInputModel : IMapFrom<Reservation>, IHaveCustomMappings
     {
         public int Id { get; set; }
 
+        public int ReservationNumber { get; set; }
+
         [Required]
         [DataType(DataType.Date)]
-        [NotPastDate]
         public DateTime From { get; set; }
 
-
         [Required]
+        [NotBeforeDate(nameof(From))]
         [DataType(DataType.Date)]
-        [NotPastDate]
         public DateTime To { get; set; }
 
         public string VillaNumber { get; set; }
 
+        [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCount, ErrorMessage = "Please enter a valid guest count.")]
         public int AdultsCount { get; set; }
 
+        [Range(DataConstants.MinChildrenCount, DataConstants.MaxChildrenCount, ErrorMessage = "Please enter a valid children count")]
         public int ChildrenCount { get; set; }
 
-        public string Email { get; set; }
+        [Required]
+        public string Name { get; set; }
 
-        public string GuestId { get; set; }
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {

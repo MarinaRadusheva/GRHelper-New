@@ -13,9 +13,11 @@
     {
         public int Id { get; set; }
 
+        public int ReservationNumber { get; set; }
+
         public DateTime From { get; set; }
 
-        public string Email { get; set; }
+        public string Name { get; set; }
 
         public string VillaNumber { get; set; }
 

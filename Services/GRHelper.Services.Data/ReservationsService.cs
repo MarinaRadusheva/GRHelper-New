@@ -41,7 +41,9 @@
             {
                 From = input.From.AddHours(15),
                 To = input.To.AddHours(12),
+                ReservationNumber = input.ReservationNumber,
                 Email = input.Email,
+                Name = input.Name,
                 AdultsCount = input.AdultsCount,
                 ChildrenCount = input.ChildrenCount,
                 VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.VillaNumber == input.Villa).Id,
@@ -60,12 +62,14 @@
                 throw new NullReferenceException("Reservation does not exist");
             }
 
-            reservation.From = input.From;
-            reservation.To = input.To;
+            reservation.From = input.From.AddHours(15);
+            reservation.To = input.To.AddHours(12);
             reservation.Email = input.Email;
+            reservation.Name = input.Name;
             reservation.AdultsCount = input.AdultsCount;
             reservation.ChildrenCount = input.ChildrenCount;
             reservation.VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.VillaNumber == input.VillaNumber).Id;
+            reservation.ReservationNumber = input.ReservationNumber;
 
             this.reservations.Update(reservation);
             await this.reservations.SaveChangesAsync();

@@ -15,8 +15,11 @@
 
         [Required]
         [NotPastDate]
+        [NotBeforeDate(nameof(From))]
         [DataType(DataType.Date)]
         public DateTime To { get; set; }
+
+        public int ReservationNumber { get; set; }
 
         [Required]
         public string Villa { get; set; }
@@ -26,6 +29,8 @@
 
         [Range(DataConstants.MinChildrenCount, DataConstants.MaxChildrenCount, ErrorMessage = "Please enter a valid children count")]
         public int ChildrenCount { get; set; }
+
+        public string Name { get; set; }
 
         [Required]
         [EmailAddress]

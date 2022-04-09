@@ -15,12 +15,14 @@
         public DateTime From { get; set; }
 
         [Required]
+        [NotBeforeDate(nameof(From))]
         public DateTime To { get; set; }
+
+        public int ReservationNumber { get; set; }
 
         [Required]
         public string Name { get; set; }
 
-        [Required]
         public int VillaId { get; set; }
 
         public virtual Villa Villa { get; set; }

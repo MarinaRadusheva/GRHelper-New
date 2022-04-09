@@ -4,56 +4,57 @@
 }
 
 <h1>Reservation details</h1>
-<table>
+<hr />
+<table id="reservationDetailsTable" class="table table-bordered">
     <tr>
         <td>
-            From: @Model.From
+            From: <span>@Model.From.ToString("dd/MM/yyyy HH:mm")</span>
         </td>
         <td>
-            To: @Model.To
+            To: <span>@Model.To.ToString("dd/MM/yyyy HH:mm")</span>
         </td>
     </tr>
     <tr>
         <td>
-            Name:
+            Name: <span>@Model.Name</span>
         </td>
         <td>
-            Email: @Model.Email
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Reservation No:
-        </td>
-        <td>
-            Villa: @Model.VillaNumber
+            Email: <span>@Model.Email</span>
         </td>
     </tr>
     <tr>
         <td>
-            Adults: @Model.AdultsCount
+            Reservation No: <span>@Model.ReservationNumber</span>
         </td>
         <td>
-            Children: @Model.ChildrenCount
+            Villa: <span>@Model.VillaNumber</span>
         </td>
     </tr>
     <tr>
         <td>
-        <button onclick=ShowPassword()>
-            Show Password:
+            Adults: <span>@Model.AdultsCount</span>
+        </td>
+        <td>
+            Children: <span>@Model.ChildrenCount</span>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <button onclick=ShowPassword() class="btn btn-outline-info">
+            Show Password: 
         </button>
-        <span id="password" style="display:none">
+        <span id="password" class="ml-3" style="display:none">
             @Model.Password
         </span>
         </td>
         <td>
-            <button>
+            <button class="btn btn-outline-info">
             Resend password
             </button>
         </td>
     </tr>
 </table>
-
+<hr />
 
 <a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info ml-3">Edit</a>
 <a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger ml-3">Delete</a>
@@ -61,7 +62,7 @@
 @section Scripts {
     <script>
         function ShowPassword(){
-            document.getElementById('password').style.display="block";
+            document.getElementById('password').style.display="inline-block";
         }
     </script>
 }
