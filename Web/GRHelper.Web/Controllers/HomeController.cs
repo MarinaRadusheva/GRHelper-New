@@ -1,20 +1,25 @@
 ﻿namespace GRHelper.Web.Controllers
 {
     using System.Diagnostics;
-
+    using System.Linq;
     using GRHelper.Common;
     using GRHelper.Data.Models;
+    using GRHelper.Services.Data;
+    using GRHelper.Web.Infrastructure;
     using GRHelper.Web.ViewModels;
+    using GRHelper.Web.ViewModels.Guests.Reservations;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
     public class HomeController : BaseController
     {
         private readonly SignInManager<ApplicationUser> signInManager;
+        private readonly IReservationsService reservationService;
 
-        public HomeController(SignInManager<ApplicationUser> signInManager)
+        public HomeController(SignInManager<ApplicationUser> signInManager, IReservationsService reservationService)
         {
             this.signInManager = signInManager;
+            this.reservationService = reservationService;
         }
 
         public IActionResult Index()
@@ -25,8 +30,13 @@
             {
                 return View("~/Areas/Administration/Views/Administration/Index.cshtml");
             }
-            //model with userissignedin, active reservations, unlocked reservations, last request
-            else { return this.View(); }
+            else
+            {
+                //model with userissignedin, active reservations, unlocked reservations, last request
+                var email = this.User.Email();
+                var unlockedReservations = this.reservationService.GetUnlocked<UnlockedReservationViewModel>(email).Count();
+                return this.View(unlockedReservations);
+            }
         }
 
         public IActionResult Privacy()

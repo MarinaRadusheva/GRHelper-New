@@ -18,5 +18,11 @@
         Task EditAsync(EditReservationInputModel input);
 
         Task DeleteAsync(int id);
+
+        IEnumerable<T> GetUnlocked<T>(string email);
+
+        IEnumerable<T> AllByGuestId<T>(string id);
+
+        bool Unlock(int id, string password);
     }
 }

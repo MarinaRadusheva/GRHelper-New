@@ -18,4 +18,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\GRHelper.Common\GRHelper.Common.csproj" />
+  </ItemGroup>
+
 </Project>

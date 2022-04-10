@@ -97,5 +97,40 @@
         {
             return this.reservations.AllAsNoTracking().Count();
         }
+
+        public IEnumerable<T> AllByGuestId<T>(string id)
+        {
+            var reservations = this.reservations.AllAsNoTracking()
+                .Where(r => r.GuestId == id)
+                .AsQueryable()
+                .To<T>()
+                .ToList();
+
+            return reservations;
+        }
+
+        public IEnumerable<T> GetUnlocked<T>(string email)
+        {
+            var reservations = this.reservations.AllAsNoTracking()
+                .Where(r => r.Email == email && r.Unlocked == false)
+                .AsQueryable()
+                .To<T>()
+                .ToList();
+
+            return reservations;
+        }
+
+        public bool Unlock(int id, string password)
+        {
+            var reservation = this.reservations.All().FirstOrDefault(r => r.Id == id && r.Password == password);
+            if (reservation == null)
+            {
+                return false;
+            }
+
+            reservation.Unlocked = true;
+            this.reservations.SaveChangesAsync().GetAwaiter().GetResult();
+            return true;
+        }
     }
 }

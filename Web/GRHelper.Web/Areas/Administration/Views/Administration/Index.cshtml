@@ -3,11 +3,22 @@
 }
 
 <h1>@this.ViewData["Title"]</h1>
+<h2>Hi! Your guests will be happy that you are here!</h2>
+<hr />
 <div id="AdminMenu" col-md=4>
+    <h4>Quick actions</h4>
     <button id="NewReservation">
         New Reservation
     </button>
     <button id="Requests">
-        Requests
+        See pending requests
     </button>
+     <button id="Requests">
+        Chats
+    </button>
+</div>
+<hr />
+<div id="unhandledRequests">
+    <h4>There aren't any unhandled requests. Take a break =).</h4>
+    <h4>There are {some} unhandled <a class="nav-link text-info" asp-area="Administration" asp-controller="Requests" asp-action="All">requests</a>. Your guests are counting on you! </h4>
 </div>

@@ -1,0 +1,30 @@
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Guests.Reservations.UnlockedReservationViewModel>
+@{
+    this.ViewData["Title"] = "Unlocked reservations";
+}
+
+<h1>My unlocked reservations</h1>
+
+<table id="unlockedReservationsTable" class="table table-bordered table-striped table-light">
+    @foreach(var res in Model)
+    {
+        <tr>
+            <td>
+                @res.ReservationNumber
+            </td>
+            <td>
+                @res.From.ToShortDateString()
+            </td>
+            <td>
+                @res.To.ToShortDateString()
+            </td>
+            <td>
+                <form method="post" asp-controller="Reservations" asp-action="Unlock">
+                    <input type="hidden" name="Id" value=@res.Id>
+                    <input type="text" name="Password">
+                    <button type="submit">Send password</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
