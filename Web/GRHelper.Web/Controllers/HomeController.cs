@@ -34,7 +34,7 @@
             {
                 //model with userissignedin, active reservations, unlocked reservations, last request
                 var email = this.User.Email();
-                var unlockedReservations = this.reservationService.GetUnlocked<UnlockedReservationViewModel>(email).Count();
+                var unlockedReservations = this.reservationService.GetUnlockedCount(email);
                 return this.View(unlockedReservations);
             }
         }

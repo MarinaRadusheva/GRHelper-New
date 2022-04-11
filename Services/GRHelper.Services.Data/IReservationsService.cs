@@ -19,10 +19,12 @@
 
         Task DeleteAsync(int id);
 
+        int GetUnlockedCount(string email);
+
         IEnumerable<T> GetUnlocked<T>(string email);
 
         IEnumerable<T> AllByGuestId<T>(string id);
 
-        bool Unlock(int id, string password);
+        bool Unlock(int id, string password, string userId);
     }
 }

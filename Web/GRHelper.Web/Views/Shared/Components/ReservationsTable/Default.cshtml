@@ -1,0 +1,29 @@
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Guests.Reservations.ReservationListViewModel>
+
+<table class="table table-bordered table-striped table-light">
+    <thead class="table-dark">
+        <tr>
+            <th>Reservation No</th>
+            <th>From</th>
+            <th>To</th>
+            <th>See requests</th>
+        </tr>
+    </thead>
+    @foreach(var res in @Model)
+    {
+        <tr>
+            <td>
+                @res.ReservationNumber
+            </td>
+            <td>
+                @res.From.ToShortDateString()
+            </td>
+            <td>
+                @res.To.ToShortDateString()
+            </td>
+            <td>
+                <a class="btn btn-outline-info" asp-controller="Requests" asp-action="AllByReservation" asp-route-id=@res.Id>Requests</a>
+            </td>
+        </tr>
+    }
+</table>

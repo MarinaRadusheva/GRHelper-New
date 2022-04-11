@@ -5,7 +5,7 @@
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 
-    public class UnlockedReservationViewModel : IMapFrom<Reservation>
+    public class ReservationListViewModel : IMapFrom<Reservation>
     {
         public int Id { get; set; }
 

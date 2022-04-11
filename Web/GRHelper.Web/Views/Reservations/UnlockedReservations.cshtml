@@ -1,9 +1,15 @@
-﻿@model IEnumerable<GRHelper.Web.ViewModels.Guests.Reservations.UnlockedReservationViewModel>
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Guests.Reservations.ReservationListViewModel>
 @{
     this.ViewData["Title"] = "Unlocked reservations";
 }
 
 <h1>My unlocked reservations</h1>
+<hr />
+
+@if((bool)this.ViewData["Successful"] == false)
+{
+    <p style="color:red">Reservation could not be unlocked. Please try again.</p>
+}
 
 <table id="unlockedReservationsTable" class="table table-bordered table-striped table-light">
     @foreach(var res in Model)
@@ -22,7 +28,7 @@
                 <form method="post" asp-controller="Reservations" asp-action="Unlock">
                     <input type="hidden" name="Id" value=@res.Id>
                     <input type="text" name="Password">
-                    <button type="submit">Send password</button>
+                    <button type="submit" class="btn btn-info ml-3">Send password</button>
                 </form>
             </td>
         </tr>

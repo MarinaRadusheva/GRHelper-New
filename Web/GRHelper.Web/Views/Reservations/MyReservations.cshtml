@@ -1,0 +1,91 @@
+﻿@model GRHelper.Web.ViewModels.Guests.Reservations.AllReservationsViewModel
+
+@{
+    this.ViewData["Title"] = "My Reservations";
+}
+
+<h1>My Reservations</h1>
+<hr />
+
+<div onclick=SelectView(event)>
+    <button class="btn btn-info ml-5 choiceBtn">All</button>
+    <button class="btn btn-outline-info ml-5 choiceBtn">Present</button>
+    <button class="btn btn-outline-info ml-5 choiceBtn">Future</button>
+    <button class="btn btn-outline-info ml-5 choiceBtn">Past</button>
+    <a class="btn btn-outline-info ml-5" asp-controller="Reservations" asp-action="UnlockedReservations">Unlocked</a>
+</div>
+    
+<hr />
+
+<div id="presentReservations">
+    @if(@Model.PresentReservations.Any()){
+        <h2>Present Reservations</h2>
+       <vc:reservations-table reservations=@Model.PresentReservations></vc:reservations-table>
+       <hr />
+    }
+    
+</div>
+
+<div id="futureReservations">
+    @if(@Model.FutureReservations.Any()){
+        <h2>Future Reservations</h2>
+       <vc:reservations-table reservations=@Model.FutureReservations></vc:reservations-table>
+       <hr />
+    }
+
+</div>
+
+<div id="pastReservations">
+    @if(@Model.PastReservations.Any()){
+        <h2>Past Reservations</h2>
+       <vc:reservations-table reservations=@Model.PastReservations></vc:reservations-table>
+    }
+
+</div>
+
+@section Scripts{
+    <script>
+        function SelectView(e){
+            let choice = e.target.textContent;
+            console.log(choice);
+            Array.from(document.querySelectorAll("button.choiceBtn")).forEach(b => {
+                   if(b.textContent!=choice){
+                       b.classList.remove("btn-info")
+                       b.classList.add("btn-outline-info")
+                   } else {
+                       b.classList.remove("btn-outline-info")
+                       b.classList.add("btn-info")
+                   }
+            });
+            switch (choice) {
+                case "All":
+                
+                document.getElementById("presentReservations").style.display="block";
+                document.getElementById("futureReservations").style.display="block";
+                document.getElementById("pastReservations").style.display="block";
+                break;
+
+                case "Present":
+                
+                document.getElementById("presentReservations").style.display="block";
+                document.getElementById("futureReservations").style.display="none";
+                document.getElementById("pastReservations").style.display="none";
+                break;
+
+                case "Future":
+                
+                document.getElementById("presentReservations").style.display="none";
+                document.getElementById("futureReservations").style.display="block";
+                document.getElementById("pastReservations").style.display="none";
+                break;
+
+                case "Past":
+                
+                document.getElementById("presentReservations").style.display="none";
+                document.getElementById("futureReservations").style.display="none";
+                document.getElementById("pastReservations").style.display="block";
+                break;
+            }
+        }
+    </script>
+}

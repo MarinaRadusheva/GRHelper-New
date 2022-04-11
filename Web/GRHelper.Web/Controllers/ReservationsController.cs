@@ -4,6 +4,8 @@ using GRHelper.Web.Infrastructure;
 using GRHelper.Web.ViewModels.Guests.Reservations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace GRHelper.Web.Controllers
 {
@@ -17,24 +19,44 @@ namespace GRHelper.Web.Controllers
             this.reservationsService = reservationsService;
         }
 
-        public IActionResult UnlockedReservations()
+        public IActionResult MyReservations()
         {
-            var email = this.User.Email();
-            var unlockedReservations = this.reservationsService.GetUnlocked<UnlockedReservationViewModel>(email);
+            var userId = this.User.Id();
+            var userEmail = this.User.Email();
+            var allReservations = this.reservationsService.AllByGuestId<ReservationListViewModel>(userId);
+            var unlocked = this.reservationsService.GetUnlockedCount(userEmail);
+            var reservationsModel = new AllReservationsViewModel()
+            {
+                FutureReservations = allReservations.Where(r => r.From > DateTime.UtcNow).ToList(),
+                PresentReservations = allReservations.Where(r => r.From <= DateTime.UtcNow && r.To >= DateTime.UtcNow).ToList(),
+                PastReservations = allReservations.Where(r => r.From < DateTime.UtcNow && r.To < DateTime.UtcNow).ToList(),
+                UnlockedExist = unlocked != 0,
+            };
+
+            return this.View(reservationsModel);
+
+        }
+
+        public IActionResult UnlockedReservations(bool success = true)
+        {
+            var userEmail = this.User.Email();
+            var unlockedReservations = this.reservationsService.GetUnlocked<ReservationListViewModel>(userEmail);
+            this.ViewData["Successful"] = success;
             return this.View(unlockedReservations);
         }
 
         [HttpPost]
         public IActionResult Unlock(int Id, string Password)
         {
-            var isUnlocked = this.reservationsService.Unlock(Id, Password);
+            var userId = this.User.Id();
+            var isUnlocked = this.reservationsService.Unlock(Id, Password, userId);
             if (isUnlocked)
             {
-                return View("~/Views/Home/Index.cshtml");
+                return this.RedirectToAction(nameof(this.MyReservations));
             }
             else
             {
-                return RedirectToAction(nameof(this.UnlockedReservations));
+                return this.RedirectToAction(nameof(this.UnlockedReservations), new { success = false });
             }
         }
     }

@@ -10,14 +10,14 @@
 <div class="text-center">
     <h1 class="display-4">Welcome to Vaya Beach Resort!</h1>
     <hr />
-    <h4>Your Guest Relations Team is here to make your vacation experience incredible!</h4>
+    <h3>Your Guest Relations Team is here to make your vacation experience incredible!</h3>
 </div>
 <hr />
 
 @if (SignInManager.IsSignedIn(this.User))
 {
-    <div id="unlockedReservations">
-    You have @Model unlocked reservations.
+    <div id="unlockedReservations" class="align-self-center mx-auto mt-5 align-content-center text-center" style="border-style: solid; border-radius: 10px; border-color: darkblue">
+    <h3>You have <a asp-controller="Reservations" asp-action="UnlockedReservations">@Model</a> unlocked reservations.</h3>
     </div>
 
 }

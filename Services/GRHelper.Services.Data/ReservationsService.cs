@@ -109,6 +109,13 @@
             return reservations;
         }
 
+        public int GetUnlockedCount(string email)
+        {
+            return this.reservations.AllAsNoTracking()
+                .Where(r => r.Email == email && r.Unlocked == false)
+                .Count();
+        }
+
         public IEnumerable<T> GetUnlocked<T>(string email)
         {
             var reservations = this.reservations.AllAsNoTracking()
@@ -120,7 +127,7 @@
             return reservations;
         }
 
-        public bool Unlock(int id, string password)
+        public bool Unlock(int id, string password, string userId)
         {
             var reservation = this.reservations.All().FirstOrDefault(r => r.Id == id && r.Password == password);
             if (reservation == null)
@@ -129,6 +136,7 @@
             }
 
             reservation.Unlocked = true;
+            reservation.GuestId = userId;
             this.reservations.SaveChangesAsync().GetAwaiter().GetResult();
             return true;
         }
