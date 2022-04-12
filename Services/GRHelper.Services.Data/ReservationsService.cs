@@ -89,7 +89,7 @@
 
         public async Task<T> GetByIdAsync<T>(int id)
         {
-            var reservation = this.reservations.AllAsNoTracking().Where(r => r.Id == id).To<T>().FirstOrDefault();
+            var reservation = await this.reservations.AllAsNoTracking().Where(r => r.Id == id).To<T>().FirstOrDefaultAsync();
             return reservation;
         }
 
@@ -139,6 +139,11 @@
             reservation.GuestId = userId;
             this.reservations.SaveChangesAsync().GetAwaiter().GetResult();
             return true;
+        }
+
+        public bool UserIsOwner(int reservationId, string userId)
+        {
+            return this.reservations.AllAsNoTracking().Any(r => r.Id == reservationId && r.GuestId == userId);
         }
     }
 }

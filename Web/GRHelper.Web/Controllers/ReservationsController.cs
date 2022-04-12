@@ -1,14 +1,14 @@
-﻿using GRHelper.Data.Models;
-using GRHelper.Services.Data;
-using GRHelper.Web.Infrastructure;
-using GRHelper.Web.ViewModels.Guests.Reservations;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Linq;
-
-namespace GRHelper.Web.Controllers
+﻿namespace GRHelper.Web.Controllers
 {
+    using System;
+    using System.Linq;
+
+    using GRHelper.Services.Data;
+    using GRHelper.Web.Infrastructure;
+    using GRHelper.Web.ViewModels.Guests.Reservations;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+
     [Authorize]
     public class ReservationsController : BaseController
     {
@@ -34,7 +34,6 @@ namespace GRHelper.Web.Controllers
             };
 
             return this.View(reservationsModel);
-
         }
 
         public IActionResult UnlockedReservations(bool success = true)

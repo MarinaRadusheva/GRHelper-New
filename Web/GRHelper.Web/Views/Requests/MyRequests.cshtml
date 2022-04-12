@@ -1,0 +1,53 @@
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Guests.Requests.RequestListViewModel>
+
+@{
+    this.ViewData["Title"] = "My Requests";
+}
+
+<h2>My Requests</h2>
+
+
+@if (!Model.Any())
+{
+    <h3>You have no requests yet.</h3>
+}
+else
+{
+    <table class="table table-bordered table-light table-striped requestsTable">
+        <tr>
+            <th>Reservation No</th>
+            <th>Service</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Guest Count</th>
+            <th>Status</th>
+            <th>Manage</th>
+        </tr>
+        @foreach(var request in @Model)
+        {
+            <tr>
+                <td>
+                    @request.ReservationNumber
+                </td>
+                <td>
+                    @request.HotelServiceName
+                </td>
+                <td>
+                    @request.Date
+                </td>
+                <td>
+                    @request.Time
+                </td>
+                <td>
+                    @request.GuestCount
+                </td>
+                <td>
+                    @request.RequestStatus
+                </td>
+                <td>
+                    Actions
+                </td>
+            </tr>
+        }
+    </table>
+}

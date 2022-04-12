@@ -1,9 +1,10 @@
-﻿using GRHelper.Web.ViewModels.Guests.Reservations;
-using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-
-namespace GRHelper.Web.ViewComponents
+﻿namespace GRHelper.Web.ViewComponents
 {
+    using System.Collections.Generic;
+
+    using GRHelper.Web.ViewModels.Guests.Reservations;
+    using Microsoft.AspNetCore.Mvc;
+
     public class ReservationsTableViewComponent : ViewComponent
     {
         public IViewComponentResult Invoke(IEnumerable<ReservationListViewModel> reservations)

@@ -26,5 +26,7 @@
         IEnumerable<T> AllByGuestId<T>(string id);
 
         bool Unlock(int id, string password, string userId);
+
+        bool UserIsOwner(int reservationId, string userId);
     }
 }

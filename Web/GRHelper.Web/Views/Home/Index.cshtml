@@ -16,17 +16,22 @@
 
 @if (SignInManager.IsSignedIn(this.User))
 {
-    <div id="unlockedReservations" class="align-self-center mx-auto mt-5 align-content-center text-center" style="border-style: solid; border-radius: 10px; border-color: darkblue">
-    <h3>You have <a asp-controller="Reservations" asp-action="UnlockedReservations">@Model</a> unlocked reservations.</h3>
-    </div>
+    if (@Model != 0)
+    {
+        <div id="unlockedReservations" class="align-self-center mx-auto mt-5 align-content-center text-center" style="border-style: solid; border-radius: 10px; border-color: darkblue">
+            <h3>You have <a asp-controller="Reservations" asp-action="UnlockedReservations">@Model</a> unlocked reservation/s.</h3>
+        </div>
+    }
+
 
 }
 else
 {
     <div id="notLoggedInDiv" class="align-self-center mx-auto align-content-center text-center" style="width:60%">
-         <h4>You are not logged in. To manage your requests to our Guest Relations Team, please 
-        <a class="text-info" asp-area="Identity" asp-page="/Account/Register">login</a> or 
-        <a class="text-info" asp-area="Identity" asp-page="/Account/Login">register</a>.
+        <h4>
+            You are not logged in. To manage your requests to our Guest Relations Team, please
+            <a class="text-info" asp-area="Identity" asp-page="/Account/Register">login</a> or
+            <a class="text-info" asp-area="Identity" asp-page="/Account/Login">register</a>.
         </h4>
     </div>
 }

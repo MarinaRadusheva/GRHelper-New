@@ -1,13 +1,12 @@
 ﻿namespace GRHelper.Web.Controllers
 {
     using System.Diagnostics;
-    using System.Linq;
+
     using GRHelper.Common;
     using GRHelper.Data.Models;
     using GRHelper.Services.Data;
     using GRHelper.Web.Infrastructure;
     using GRHelper.Web.ViewModels;
-    using GRHelper.Web.ViewModels.Guests.Reservations;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
 
@@ -28,11 +27,11 @@
             var userisAdmin = user ? this.User.IsInRole(GlobalConstants.AdministratorRoleName) : false;
             if (user && userisAdmin)
             {
-                return View("~/Areas/Administration/Views/Administration/Index.cshtml");
+                return this.View("~/Areas/Administration/Views/Administration/Index.cshtml");
             }
             else
             {
-                //model with userissignedin, active reservations, unlocked reservations, last request
+                 // model with userissignedin, active reservations, unlocked reservations, last request
                 var email = this.User.Email();
                 var unlockedReservations = this.reservationService.GetUnlockedCount(email);
                 return this.View(unlockedReservations);
