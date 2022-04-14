@@ -8,6 +8,7 @@
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Repositories;
     using GRHelper.Data.Models;
+    using GRHelper.Services.Data.Models;
     using GRHelper.Services.Mapping;
     using GRHelper.Web.ViewModels.Administration.Reservations;
     using Microsoft.EntityFrameworkCore;
@@ -41,12 +42,12 @@
             {
                 From = input.From.AddHours(15),
                 To = input.To.AddHours(12),
-                ReservationNumber = input.ReservationNumber,
+                Number = input.Number,
                 Email = input.Email,
                 Name = input.Name,
                 AdultsCount = input.AdultsCount,
                 ChildrenCount = input.ChildrenCount,
-                VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.VillaNumber == input.Villa).Id,
+                VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.Number == input.Villa).Id,
                 Password = HelperMethods.GeneratePassword(DataConstants.ResPasswordLength),
             };
 
@@ -68,8 +69,8 @@
             reservation.Name = input.Name;
             reservation.AdultsCount = input.AdultsCount;
             reservation.ChildrenCount = input.ChildrenCount;
-            reservation.VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.VillaNumber == input.VillaNumber).Id;
-            reservation.ReservationNumber = input.ReservationNumber;
+            reservation.VillaId = this.villas.AllAsNoTracking().FirstOrDefault(v => v.Number == input.VillaNumber).Id;
+            reservation.Number = input.Number;
 
             this.reservations.Update(reservation);
             await this.reservations.SaveChangesAsync();
@@ -107,6 +108,15 @@
                 .ToList();
 
             return reservations;
+        }
+
+        public List<ReservationForRequestDto> AvailableByGuestId(string id)
+        {
+            return this.reservations.AllAsNoTracking()
+                .Where(r => r.GuestId == id && r.To >= DateTime.UtcNow)
+                .To<ReservationForRequestDto>()
+                .OrderBy(r => r.From)
+                .ToList();
         }
 
         public int GetUnlockedCount(string email)

@@ -9,11 +9,11 @@
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 
-    public class EditReservationInputModel : IMapFrom<Reservation>, IHaveCustomMappings
+    public class EditReservationInputModel : IMapFrom<Reservation>
     {
         public int Id { get; set; }
 
-        public int ReservationNumber { get; set; }
+        public int Number { get; set; }
 
         [Required]
         [DataType(DataType.Date)]
@@ -39,10 +39,5 @@
         [EmailAddress]
         public string Email { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Reservation, EditReservationInputModel>()
-                .ForMember(m => m.VillaNumber, opt => opt.MapFrom(r => r.Villa.VillaNumber));
-        }
     }
 }

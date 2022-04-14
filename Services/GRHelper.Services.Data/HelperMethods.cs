@@ -3,8 +3,17 @@
     using System;
     using System.Text;
 
+    using GRHelper.Web.ViewModels.Guests.Requests;
+
     public class HelperMethods
     {
+        private readonly IReservationsService reservationsService;
+
+        public HelperMethods(IReservationsService reservationsService)
+        {
+            this.reservationsService = reservationsService;
+        }
+
         public static string GeneratePassword(int length)
         {
             {
@@ -18,6 +27,12 @@
 
                 return res.ToString();
             }
+        }
+
+        public CreateRequestInputModel GenerateRequestModel(int serviceId, string userId)
+        {
+            var reservations = this.reservationsService.AvailableByGuestId(userId);
+            return new CreateRequestInputModel();
         }
     }
 }

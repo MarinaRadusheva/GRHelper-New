@@ -34,5 +34,16 @@
 
             return this.View();
         }
+
+        //public IActionResult Create(int id)
+        //{
+        //    var availableReservations
+        //    //ViewModels with all present and future reservations
+        //    var model = new CreateRequestInputModel()
+        //    {
+        //        HotelServiceId = id;
+        //    }
+            
+        //}
     }
 }

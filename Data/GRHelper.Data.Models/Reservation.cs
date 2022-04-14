@@ -18,7 +18,7 @@
         [NotBeforeDate(nameof(From))]
         public DateTime To { get; set; }
 
-        public int ReservationNumber { get; set; }
+        public int Number { get; set; }
 
         [Required]
         public string Name { get; set; }

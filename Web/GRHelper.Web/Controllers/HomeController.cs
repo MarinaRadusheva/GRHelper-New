@@ -29,12 +29,16 @@
             {
                 return this.View("~/Areas/Administration/Views/Administration/Index.cshtml");
             }
-            else
+            else if (user)
             {
                  // model with userissignedin, active reservations, unlocked reservations, last request
                 var email = this.User.Email();
                 var unlockedReservations = this.reservationService.GetUnlockedCount(email);
                 return this.View(unlockedReservations);
+            }
+            else
+            {
+                return this.View();
             }
         }
 

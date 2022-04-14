@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
+    using GRHelper.Services.Data.Models;
     using GRHelper.Web.ViewModels.Administration.Reservations;
 
     public interface IReservationsService
@@ -24,6 +25,8 @@
         IEnumerable<T> GetUnlocked<T>(string email);
 
         IEnumerable<T> AllByGuestId<T>(string id);
+
+        List<ReservationForRequestDto> AvailableByGuestId(string id);
 
         bool Unlock(int id, string password, string userId);
 

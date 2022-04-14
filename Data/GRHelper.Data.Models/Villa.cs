@@ -9,6 +9,6 @@
     {
         [Required]
         [MaxLength(DataConstants.MaxVillaNumberLength)]
-        public string VillaNumber { get; init; }
+        public string Number { get; init; }
     }
 }

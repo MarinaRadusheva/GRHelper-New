@@ -11,7 +11,6 @@
     {
         public int ReservationId { get; init; }
 
-        [Required]
         public virtual Reservation Reservation { get; init; }
 
         public int HotelServiceId { get; init; }

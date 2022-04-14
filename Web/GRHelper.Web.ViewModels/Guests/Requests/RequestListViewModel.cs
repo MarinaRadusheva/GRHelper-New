@@ -9,7 +9,7 @@
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 
-    public class RequestListViewModel : IMapFrom<Request>, IHaveCustomMappings
+    public class RequestListViewModel : IMapFrom<Request>
     {
         public int Id { get; set; }
 
@@ -27,10 +27,5 @@
 
         public string RequestStatus { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Request, RequestListViewModel>()
-                .ForMember(r => r.ReservationNumber, opt => opt.MapFrom(r => r.Reservation.ReservationNumber));
-        }
     }
 }

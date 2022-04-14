@@ -9,7 +9,7 @@
     {
         public int Id { get; set; }
 
-        public int ReservationNumber { get; set; }
+        public int Number { get; set; }
 
         public DateTime From { get; set; }
 

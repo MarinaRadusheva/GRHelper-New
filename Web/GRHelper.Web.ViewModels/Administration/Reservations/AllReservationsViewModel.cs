@@ -13,7 +13,7 @@
     {
         public int Id { get; set; }
 
-        public int ReservationNumber { get; set; }
+        public int Number { get; set; }
 
         public DateTime From { get; set; }
 
@@ -28,7 +28,6 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Reservation, AllReservationsViewModel>()
-                .ForMember(m => m.VillaNumber, opt => opt.MapFrom(r => r.Villa.VillaNumber))
                 .ForMember(m => m.RequestsCount, opt => opt.MapFrom(r => r.Requests.Count))
                 .ForMember(m => m.PendingRequestsCount, opt => opt.MapFrom(r => r.Requests
                         .Where(x => x.RequestStatus == RequestStatus.Waiting || x.RequestStatus == RequestStatus.InProgress)

@@ -6,11 +6,11 @@
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 
-    public class ReservationDetailsViewModel : IMapFrom<Reservation>, IHaveCustomMappings
+    public class ReservationDetailsViewModel : IMapFrom<Reservation>
     {
         public int Id { get; set; }
 
-        public int ReservationNumber { get; set; }
+        public int Number { get; set; }
 
         public DateTime From { get; set; }
 
@@ -27,11 +27,5 @@
         public string Email { get; set; }
 
         public string Password { get; set; }
-
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Reservation, ReservationDetailsViewModel>()
-                .ForMember(m => m.VillaNumber, opt => opt.MapFrom(r => r.Villa.VillaNumber));
-        }
     }
 }

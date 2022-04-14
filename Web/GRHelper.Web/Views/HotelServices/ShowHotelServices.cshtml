@@ -1,0 +1,24 @@
+﻿@model Dictionary<string, List<GRHelper.Web.ViewModels.Guests.HotelServices.HotelServiceListViewModel>>
+@{
+    this.ViewData["Title"] = "Hotel services";
+}
+
+<h1>@ViewData["Category"]</h1>
+<div id="subCategories">
+    <h4>Pick a service.</h4>
+    @foreach  (var subCategory in @Model.Keys)
+    {
+        <div class="subCategoryDiv mt-5">
+            <h3>@subCategory</h3>
+            <div class="subCategoryServicesDiv")>
+                @foreach  (var hotelService in @Model[subCategory])
+                
+                {
+                    <a class="btn btn-info" asp-controller="Requests" asp-action="Create" asp-route-id=@hotelService.Id>@hotelService.Name @(@hotelService.Price!=null ? " - " + @hotelService.Price+" BGN" : "")</a>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+
