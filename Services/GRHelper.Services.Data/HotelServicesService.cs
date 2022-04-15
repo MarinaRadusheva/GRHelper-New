@@ -1,14 +1,13 @@
 ﻿namespace GRHelper.Services.Data
 {
-    using GRHelper.Data.Common.Repositories;
-    using GRHelper.Data.Models;
-    using GRHelper.Web.ViewModels.Guests.HotelServices;
-    using Microsoft.EntityFrameworkCore;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+
+    using GRHelper.Data.Common.Repositories;
+    using GRHelper.Data.Models;
+    using GRHelper.Services.Data.Models;
+    using GRHelper.Web.ViewModels.Guests.HotelServices;
+    using Microsoft.EntityFrameworkCore;
 
     public class HotelServicesService : IHotelServicesService
     {
@@ -58,6 +57,19 @@
             }
 
             return sortedServices;
+        }
+
+        public HotelServiceForRequestDto GetServiceForRequest(int serviceId)
+        {
+            var service = this.hotelServices.AllAsNoTracking()
+                .Include(s => s.SubCategory)
+                .FirstOrDefault(x => x.Id == serviceId);
+            return new HotelServiceForRequestDto()
+            {
+                Id = service.Id,
+                DisplayName = service.SubCategory.Name + " -> " + service.Name,
+                Paid = service.Price != null,
+            };
         }
     }
 }

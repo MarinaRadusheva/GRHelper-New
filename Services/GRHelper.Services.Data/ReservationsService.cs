@@ -114,7 +114,17 @@
         {
             return this.reservations.AllAsNoTracking()
                 .Where(r => r.GuestId == id && r.To >= DateTime.UtcNow)
-                .To<ReservationForRequestDto>()
+                .Include(r => r.Villa)
+                .AsEnumerable()
+                .AsQueryable()
+                .Select(r => new ReservationForRequestDto
+                {
+                    Id = r.Id,
+                    From = r.From,
+                    To = r.To,
+                    Number = r.Number,
+                    VillaNumber = r.Villa.Number,
+                })
                 .OrderBy(r => r.From)
                 .ToList();
         }

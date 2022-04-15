@@ -1,5 +1,6 @@
 ﻿namespace GRHelper.Services.Data
 {
+    using GRHelper.Services.Data.Models;
     using GRHelper.Web.ViewModels.Guests.Requests;
     using System;
     using System.Collections.Generic;
@@ -22,5 +23,7 @@
         Task UpdateStatus(string status, int id);
 
         Task DeleteAsync(int id);
+
+        CreateRequestInputModel GenerateRequestModel(HotelServiceForRequestDto serviceInfo, List<ReservationForRequestDto> reservations);
     }
 }

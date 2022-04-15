@@ -1,14 +1,20 @@
 ﻿namespace GRHelper.Web.ViewModels.Guests.Requests
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Validation;
+    using GRHelper.Web.ViewModels.Guests.Reservations;
 
     public class CreateRequestInputModel
     {
-        public int ReservationId { get; init; }
+        public string Title { get; set; }
+
+        public List<ReservationForRequestModel> Reservations { get; set; }
+
+        public int ReservationId { get; set; }
 
         public int HotelServiceId { get; init; }
 
@@ -24,6 +30,8 @@
         [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCountPerRequest, ErrorMessage = "Please enter a valid nuber of guests.")]
         public int GuestCount { get; set; }
 
-        public PaymentType PaymentType { get; set; } = PaymentType.Free;
+        public List<string> PaymentTypes { get; set; }
+
+        public string PaymentType { get; set; } = Data.Common.PaymentType.Free.ToString();
     }
 }

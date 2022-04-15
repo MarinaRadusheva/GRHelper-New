@@ -8,8 +8,10 @@
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Repositories;
     using GRHelper.Data.Models;
+    using GRHelper.Services.Data.Models;
     using GRHelper.Services.Mapping;
     using GRHelper.Web.ViewModels.Guests.Requests;
+    using GRHelper.Web.ViewModels.Guests.Reservations;
     using Microsoft.EntityFrameworkCore;
 
     public class RequestsService : IRequestsService
@@ -75,6 +77,31 @@
 
             request.RequestStatus = (RequestStatus)Enum.Parse(typeof(RequestStatus), status);
             await this.requests.SaveChangesAsync();
+        }
+
+        public CreateRequestInputModel GenerateRequestModel(HotelServiceForRequestDto serviceInfo, List<ReservationForRequestDto> reservations)
+        {
+            var paymentTypes = new List<string>();
+            if (serviceInfo.Paid)
+            {
+                paymentTypes = HelperMethods.GetPaymentTypes();
+            }
+
+            return new CreateRequestInputModel()
+            {
+                Title = serviceInfo.DisplayName,
+                Reservations = reservations.Select(x => new ReservationForRequestModel
+                {
+                    Id = x.Id,
+                    From = x.From,
+                    To = x.To,
+                    Number = x.Number,
+                    VillaNumber = x.VillaNumber,
+                })
+                .ToList(),
+                HotelServiceId = serviceInfo.Id,
+                PaymentTypes = paymentTypes,
+            };
         }
     }
 }

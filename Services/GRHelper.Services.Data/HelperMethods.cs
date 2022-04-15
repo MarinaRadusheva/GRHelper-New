@@ -1,9 +1,10 @@
 ﻿namespace GRHelper.Services.Data
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
 
-    using GRHelper.Web.ViewModels.Guests.Requests;
+    using GRHelper.Data.Common;
 
     public class HelperMethods
     {
@@ -29,10 +30,19 @@
             }
         }
 
-        public CreateRequestInputModel GenerateRequestModel(int serviceId, string userId)
+        public static List<string> GetPaymentTypes()
         {
-            var reservations = this.reservationsService.AvailableByGuestId(userId);
-            return new CreateRequestInputModel();
+            var paymentTypes = new List<string>();
+            foreach (var paymentType in Enum.GetValues(typeof(PaymentType)))
+            {
+                var payment = paymentType.ToString();
+                if (payment != "Free")
+                {
+                    paymentTypes.Add(payment);
+                }
+            }
+
+            return paymentTypes;
         }
     }
 }
