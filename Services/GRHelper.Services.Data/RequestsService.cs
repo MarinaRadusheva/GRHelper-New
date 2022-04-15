@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -81,10 +82,23 @@
 
         public CreateRequestInputModel GenerateRequestModel(HotelServiceForRequestDto serviceInfo, List<ReservationForRequestDto> reservations)
         {
-            var paymentTypes = new List<string>();
+
+            var paymentTypesToDisplay = new List<PaymentTypeForRequest>();
             if (serviceInfo.Paid)
             {
-                paymentTypes = HelperMethods.GetPaymentTypes();
+                var paymentTypes = HelperMethods.GetPaymentTypes();
+                paymentTypesToDisplay = new List<PaymentTypeForRequest>();
+                foreach (var payType in paymentTypes)
+                {
+                    if (payType.ToString() != "Free")
+                    {
+                        paymentTypesToDisplay.Add(new PaymentTypeForRequest
+                        {
+                            DisplayName = HelperMethods.GetAttribute<DisplayAttribute>(payType).Name,
+                            EnumValue = (int)payType,
+                        });
+                    }
+                }
             }
 
             return new CreateRequestInputModel()
@@ -100,7 +114,7 @@
                 })
                 .ToList(),
                 HotelServiceId = serviceInfo.Id,
-                PaymentTypes = paymentTypes,
+                PaymentTypes = paymentTypesToDisplay,
             };
         }
     }

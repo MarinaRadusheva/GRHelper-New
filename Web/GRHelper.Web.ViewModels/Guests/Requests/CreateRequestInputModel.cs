@@ -30,7 +30,7 @@
         [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCountPerRequest, ErrorMessage = "Please enter a valid nuber of guests.")]
         public int GuestCount { get; set; }
 
-        public List<string> PaymentTypes { get; set; }
+        public IEnumerable<PaymentTypeForRequest> PaymentTypes { get; set; }
 
         public string PaymentType { get; set; } = Data.Common.PaymentType.Free.ToString();
     }

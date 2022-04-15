@@ -2,6 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Reflection;
     using System.Text;
 
     using GRHelper.Data.Common;
@@ -30,19 +33,19 @@
             }
         }
 
-        public static List<string> GetPaymentTypes()
+        public static IEnumerable<PaymentType> GetPaymentTypes()
         {
-            var paymentTypes = new List<string>();
-            foreach (var paymentType in Enum.GetValues(typeof(PaymentType)))
-            {
-                var payment = paymentType.ToString();
-                if (payment != "Free")
-                {
-                    paymentTypes.Add(payment);
-                }
-            }
 
-            return paymentTypes;
+            return (PaymentType[])Enum.GetValues(typeof(PaymentType));
+        }
+
+        public static TAttribute GetAttribute<TAttribute>(Enum enumValue)
+            where TAttribute : Attribute
+        {
+            return enumValue.GetType()
+                            .GetMember(enumValue.ToString())
+                            .First()
+                            .GetCustomAttribute<TAttribute>();
         }
     }
 }
