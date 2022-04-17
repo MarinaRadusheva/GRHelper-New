@@ -2,22 +2,15 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Reflection;
     using System.Text;
-
+    using GRHelpe.Web.ViewModels.Guests.Requests;
     using GRHelper.Data.Common;
+    using GRHelper.Services.Data.Models;
 
     public class HelperMethods
     {
-        private readonly IReservationsService reservationsService;
-
-        public HelperMethods(IReservationsService reservationsService)
-        {
-            this.reservationsService = reservationsService;
-        }
-
         public static string GeneratePassword(int length)
         {
             {
@@ -46,6 +39,16 @@
                             .GetMember(enumValue.ToString())
                             .First()
                             .GetCustomAttribute<TAttribute>();
+        }
+
+        public static bool RequestDateIsValid(ReservationDatesModel reservationDates, DateTime date)
+        {
+            if (date < reservationDates.From || date > reservationDates.To)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

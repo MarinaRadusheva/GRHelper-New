@@ -1,12 +1,11 @@
 ﻿namespace GRHelper.Services.Data
 {
-    using GRHelper.Services.Data.Models;
-    using GRHelper.Web.ViewModels.Guests.Requests;
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
+
+    using GRHelper.Services.Data.Models;
+    using GRHelper.Web.ViewModels.Guests.Requests;
 
     public interface IRequestsService
     {
@@ -16,7 +15,7 @@
 
         Task<T> GetById<T>(int id);
 
-        Task CreateAsync(CreateRequestInputModel input);
+        Task CreateAsync(CreateRequestInputModel input, DateTime? endDate);
 
         Task EditAsync(EditRequestInputModel input);
 

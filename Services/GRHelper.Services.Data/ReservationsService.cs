@@ -19,7 +19,7 @@
         private readonly IDeletableEntityRepository<Villa> villas;
 
         public ReservationsService(
-            IDeletableEntityRepository<Reservation> reservations, 
+            IDeletableEntityRepository<Reservation> reservations,
             IDeletableEntityRepository<Villa> villas)
         {
             this.reservations = reservations;
@@ -90,8 +90,10 @@
 
         public async Task<T> GetByIdAsync<T>(int id)
         {
-            var reservation = await this.reservations.AllAsNoTracking().Where(r => r.Id == id).To<T>().FirstOrDefaultAsync();
-            return reservation;
+             return await this.reservations.AllAsNoTracking()
+                .Where(r => r.Id == id)
+                .To<T>()
+                .FirstOrDefaultAsync();
         }
 
         public int GetCount()

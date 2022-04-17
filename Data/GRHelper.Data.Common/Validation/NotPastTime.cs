@@ -5,15 +5,23 @@
 
     public sealed class NotPastTime : ValidationAttribute
     {
-        public override bool IsValid(object value)
+        private string propName;
+
+        public NotPastTime(string propertyName)
         {
-            TimeSpan time = ((DateTime)value).TimeOfDay;
-            if (time < DateTime.UtcNow.TimeOfDay)
+            this.propName = propertyName;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            var date = (DateTime)validationContext.ObjectInstance.GetType().GetProperty(this.propName).GetValue(validationContext.ObjectInstance);
+            TimeSpan time = (TimeSpan)value;
+            if (date == DateTime.Today && time < DateTime.UtcNow.TimeOfDay)
             {
-                return false;
+                return new ValidationResult($"Please enter time in the future");
             }
 
-            return true;
+            return ValidationResult.Success;
         }
     }
 }

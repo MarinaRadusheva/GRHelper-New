@@ -19,11 +19,13 @@
 
         public bool IsDaily { get; set; }
 
-        public DateTime? Date { get; set; }
+        public DateTime Date { get; set; }
 
-        public DateTime Time { get; set; }
+        public TimeSpan Time { get; set; }
 
         public int GuestCount { get; set; }
+
+        public decimal? Price { get; set; }
 
         public string RequestStatus { get; set; }
 

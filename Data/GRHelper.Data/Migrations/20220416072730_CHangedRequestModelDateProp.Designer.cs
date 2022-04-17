@@ -4,6 +4,7 @@ using GRHelper.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GRHelper.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220416072730_CHangedRequestModelDateProp")]
+    partial class CHangedRequestModelDateProp
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -231,9 +233,6 @@ namespace GRHelper.Data.Migrations
                     b.Property<DateTime?>("DeletedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("EndDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("GuestCount")
                         .HasColumnType("int");
 
@@ -261,8 +260,8 @@ namespace GRHelper.Data.Migrations
                     b.Property<int>("ReservationId")
                         .HasColumnType("int");
 
-                    b.Property<TimeSpan>("Time")
-                        .HasColumnType("time");
+                    b.Property<DateTime>("Time")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 

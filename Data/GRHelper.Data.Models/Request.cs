@@ -20,11 +20,16 @@
         public bool IsDaily { get; set; }
 
         [DataType(DataType.Date)]
-        public DateTime? Date { get; set; }
+        [NotPastDate]
+        public DateTime Date { get; set; }
 
         [DataType(DataType.Time)]
-        [NotPastTime]
-        public DateTime Time { get; set; }
+        [NotPastTime(nameof(Date))]
+        public TimeSpan Time { get; set; }
+
+        [DataType(DataType.Date)]
+        [NotPastDate]
+        public DateTime? EndDate { get; set; }
 
         [Range(DataConstants.MinGuestCount, DataConstants.MaxGuestCountPerRequest, ErrorMessage = "Please enter a valid nuber of guests.")]
         public int GuestCount { get; set; }
@@ -33,6 +38,6 @@
 
         public PaymentType PaymentType { get; set; } = PaymentType.Free;
 
-        public RequestStatus RequestStatus { get; set; } = 0;
+        public RequestStatus RequestStatus { get; set; } = RequestStatus.Waiting;
     }
 }

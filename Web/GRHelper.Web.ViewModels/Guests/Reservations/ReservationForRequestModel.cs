@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GRHelper.Web.ViewModels.Guests.Reservations
+﻿namespace GRHelper.Web.ViewModels.Guests.Reservations
 {
     public class ReservationForRequestModel : ReservationListViewModel
     {
@@ -12,7 +6,7 @@ namespace GRHelper.Web.ViewModels.Guests.Reservations
 
         public override string ToString()
         {
-            return "No: " + this.Number + " - " + this.VillaNumber;
+            return "No: " + this.Number + " - " + this.VillaNumber + " - " + this.From.ToShortDateString();
         }
     }
 }

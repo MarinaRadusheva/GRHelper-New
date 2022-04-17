@@ -2,7 +2,6 @@
 {
     using System;
 
-    using AutoMapper;
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 

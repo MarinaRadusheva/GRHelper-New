@@ -18,15 +18,45 @@
     public class RequestsService : IRequestsService
     {
         private readonly IDeletableEntityRepository<Request> requests;
+        private readonly IDeletableEntityRepository<HotelService> hotelServices;
 
-        public RequestsService(IDeletableEntityRepository<Request> requests)
+        public RequestsService(IDeletableEntityRepository<Request> requests, IDeletableEntityRepository<HotelService> hotelServices)
         {
             this.requests = requests;
+            this.hotelServices = hotelServices;
         }
 
-        public Task CreateAsync(CreateRequestInputModel input)
+        public async Task CreateAsync(CreateRequestInputModel input, DateTime? endDate)
         {
-            throw new NotImplementedException();
+            decimal? price = null;
+            if (input.PaymentType != "Free")
+            {
+                var hotelService = this.hotelServices.AllAsNoTracking().Include(s => s.SubCategory).FirstOrDefault(s => s.Id == input.HotelServiceId);
+                if (hotelService.SubCategory.Name == "Transfer")
+                {
+                    price = hotelService.Price;
+                }
+                else
+                {
+                    price = input.GuestCount * hotelService.Price;
+                }
+            }
+
+            var newRequest = new Request()
+            {
+                HotelServiceId = input.HotelServiceId,
+                ReservationId = input.ReservationId,
+                IsDaily = input.IsDaily,
+                Date = input.Date,
+                Time = input.Time,
+                EndDate = endDate,
+                GuestCount = input.GuestCount,
+                Price = price,
+                PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), input.PaymentType),
+            };
+
+            await this.requests.AddAsync(newRequest);
+            await this.requests.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -82,12 +112,10 @@
 
         public CreateRequestInputModel GenerateRequestModel(HotelServiceForRequestDto serviceInfo, List<ReservationForRequestDto> reservations)
         {
-
             var paymentTypesToDisplay = new List<PaymentTypeForRequest>();
             if (serviceInfo.Paid)
             {
                 var paymentTypes = HelperMethods.GetPaymentTypes();
-                paymentTypesToDisplay = new List<PaymentTypeForRequest>();
                 foreach (var payType in paymentTypes)
                 {
                     if (payType.ToString() != "Free")
