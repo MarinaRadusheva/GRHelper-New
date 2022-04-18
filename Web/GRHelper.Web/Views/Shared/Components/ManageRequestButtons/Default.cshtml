@@ -1,0 +1,4 @@
+﻿@model GRHelper.Web.ViewModels.Guests.Requests.ManageButtonsViewModel
+<a asp-controller="Requests" asp-action="Edit" asp-route-id="@Model.Id" class=@(@Model.CanEdit ? "btn btn-outline-info ml-1" : "btn btn-secondary ml-1 disabled")>Edit</a>
+<a asp-controller="Requests" asp-action="Cancel" asp-route-id="@Model.Id" class=@(@Model.CanEdit ? "btn btn-info ml-1" : "btn btn-secondary ml-1 disabled")>Cancel</a>
+<a asp-controller="Requests" asp-action="Delete" asp-route-id="@Model.Id" class=@(@Model.CanEdit ? "btn btn-outline-danger ml-1" : "btn btn-secondary ml-1 disabled")>Delete</a>

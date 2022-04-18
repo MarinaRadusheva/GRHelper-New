@@ -66,9 +66,16 @@
             await this.requests.SaveChangesAsync();
         }
 
-        public Task EditAsync(EditRequestInputModel input)
+        public async Task EditAsync(EditRequestInputModel input)
         {
-            throw new NotImplementedException();
+            var requestToEdit = this.requests.All().FirstOrDefault(r => r.Id == input.Id);
+            requestToEdit.IsDaily = input.IsDaily;
+            requestToEdit.Date = input.Date;
+            requestToEdit.Time = input.Time;
+            requestToEdit.GuestCount = input.GuestCount;
+            requestToEdit.PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), input.PaymentType);
+            this.requests.Update(requestToEdit);
+            await this.requests.SaveChangesAsync();
         }
 
         public IEnumerable<T> AllByReservationId<T>(int id)
@@ -79,15 +86,22 @@
                 .ToList();
         }
 
-        public IEnumerable<T> AllByUserId<T>(string userId)
+        public IEnumerable<T> AllByUserId<T>(string userId, string showType)
         {
-            return this.requests.AllAsNoTracking()
+            var requests = this.requests.AllAsNoTracking()
                 .Include(r => r.Reservation)
                 .Include(r => r.HotelService)
                 .Where(r => r.Reservation.GuestId == userId)
-                .AsQueryable()
-                .To<T>()
-                .ToList();
+                .OrderByDescending(x => x.Date)
+                .AsQueryable();
+            if (showType == "Archive")
+            {
+                return requests.Where(r => r.Date < DateTime.Now).To<T>().ToList();
+            }
+            else
+            {
+                return requests.Where(r => r.Date >= DateTime.UtcNow).To<T>().ToList();
+            }
         }
 
         public async Task<T> GetById<T>(int id)
@@ -96,6 +110,13 @@
                 .Where(r => r.Id == id)
                 .To<T>()
                 .FirstOrDefaultAsync();
+        }
+
+        public bool UserIsOwner(int id, string userId)
+        {
+            return this.requests.AllAsNoTracking()
+                .Include(r => r.Reservation)
+                .Any(r => r.Id == id && r.Reservation.GuestId == userId);
         }
 
         public async Task UpdateStatus(string status, int id)
@@ -111,6 +132,34 @@
         }
 
         public CreateRequestInputModel GenerateRequestModel(HotelServiceForRequestDto serviceInfo, List<ReservationForRequestDto> reservations)
+        {
+            var paymentTypesToDisplay = this.GetPaymentList(serviceInfo);
+            return new CreateRequestInputModel()
+            {
+                Title = serviceInfo.DisplayName,
+                Reservations = reservations.Select(x => new ReservationForRequestModel
+                {
+                    Id = x.Id,
+                    From = x.From,
+                    To = x.To,
+                    Number = x.Number,
+                    VillaNumber = x.VillaNumber,
+                })
+                .ToList(),
+                HotelServiceId = serviceInfo.Id,
+                PaymentTypes = paymentTypesToDisplay,
+            };
+        }
+
+        public EditRequestInputModel GenerateEditModel(EditRequestInputModel model, HotelServiceForRequestDto serviceInfo)
+        {
+            var paymentTypesToDisplay = this.GetPaymentList(serviceInfo);
+            model.PaymentTypes = paymentTypesToDisplay;
+            model.Title = serviceInfo.DisplayName;
+            return model;
+        }
+
+        private List<PaymentTypeForRequest> GetPaymentList(HotelServiceForRequestDto serviceInfo)
         {
             var paymentTypesToDisplay = new List<PaymentTypeForRequest>();
             if (serviceInfo.Paid)
@@ -129,21 +178,7 @@
                 }
             }
 
-            return new CreateRequestInputModel()
-            {
-                Title = serviceInfo.DisplayName,
-                Reservations = reservations.Select(x => new ReservationForRequestModel
-                {
-                    Id = x.Id,
-                    From = x.From,
-                    To = x.To,
-                    Number = x.Number,
-                    VillaNumber = x.VillaNumber,
-                })
-                .ToList(),
-                HotelServiceId = serviceInfo.Id,
-                PaymentTypes = paymentTypesToDisplay,
-            };
+            return paymentTypesToDisplay;
         }
     }
 }

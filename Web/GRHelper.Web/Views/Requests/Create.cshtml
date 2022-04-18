@@ -4,53 +4,63 @@
     this.ViewData["Title"] = "New request";
 }
 
-<h1>New Request</h1>
-<h5>@Model.Title</h5>
+@if (!@Model.Reservations.Any())
+{
+    <div id="noReservations" class="align-self-center mx-auto">
+        <h4>You have no active reservations. Please make sure you have unlocked your reservations. Go to <a asp-controller="Reservations" asp-action="UnlockedReservations">Unlocked Reservations.</a></h4>
+    </div>
+}
 
-<form method="post">
-    <div class="form-group">
-    <label asp-for="ReservationId">Reservation</label>
-    <select asp-for="ReservationId" class="form-control">
-        @foreach(var res in @Model.Reservations)
-        {
-            <option value=@res.Id>@res</option>
-        }
-    </select>
-    </div>    
-    <input type="hidden" asp-for="HotelServiceId" value=@Model.HotelServiceId />
-    <div class="form-group">
-        <label asp-for="IsDaily">Daily service</label>
-        <input asp-for="IsDaily" class="form-check-inline" />
-        <span asp-validation-for="IsDaily" class="text-danger"></span>
-    </div>
-     <div class="form-group">
-        <label asp-for="Date">Date / Start date (if daily)</label>
-        <input asp-for="Date" class="form-control" value=@DateTime.UtcNow/>
-        <span asp-validation-for="Date" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Time"></label>
-        <input asp-for="Time" class="form-control" />
-        <span asp-validation-for="Time" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="GuestCount">Number of guests</label>
-        <input asp-for="GuestCount" class="form-control" />
-        <span asp-validation-for="GuestCount" class="text-danger"></span>
-    </div>
-    @if(@Model.PaymentTypes.Count() != 0)
-    {
+else
+{
+    <h1>New Request</h1>
+    <h5>@Model.Title</h5>
+
+    <form method="post">
         <div class="form-group">
-        <label asp-for="PaymentType">Payment method</label>
-        <select asp-for="PaymentType" class="form-control">
-            @foreach(var payment in @Model.PaymentTypes)
-            {
-                <option value=@payment.EnumValue>@payment.DisplayName</option>
-            }
-        </select>
-        <span asp-validation-for="PaymentType" class="text-danger"></span>
-    </div>
-    }
-    
-    <input class="btn btn-info" type="submit" value="Submit">
-</form>
+            <label asp-for="ReservationId">Reservation</label>
+            <select asp-for="ReservationId" class="form-control">
+                @foreach (var res in @Model.Reservations)
+                {
+                    <option value=@res.Id>@res</option>
+                }
+            </select>
+        </div>
+        <input type="hidden" asp-for="HotelServiceId" value=@Model.HotelServiceId />
+        <div class="form-group">
+            <label asp-for="IsDaily">Daily service</label>
+            <input asp-for="IsDaily" class="form-check-inline" />
+            <span asp-validation-for="IsDaily" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Date">Date / Start date (if daily)</label>
+            <input asp-for="Date" class="form-control" value=@DateTime.UtcNow />
+            <span asp-validation-for="Date" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Time"></label>
+            <input asp-for="Time" class="form-control" />
+            <span asp-validation-for="Time" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="GuestCount">Number of guests</label>
+            <input asp-for="GuestCount" class="form-control" />
+            <span asp-validation-for="GuestCount" class="text-danger"></span>
+        </div>
+        @if (@Model.PaymentTypes.Count() != 0)
+        {
+            <div class="form-group">
+                <label asp-for="PaymentType">Payment method</label>
+                <select asp-for="PaymentType" class="form-control">
+                    @foreach (var payment in @Model.PaymentTypes)
+                    {
+                        <option value=@payment.EnumValue>@payment.DisplayName</option>
+                    }
+                </select>
+                <span asp-validation-for="PaymentType" class="text-danger"></span>
+            </div>
+        }
+
+        <input class="btn btn-info" type="submit" value="Submit">
+    </form>
+}

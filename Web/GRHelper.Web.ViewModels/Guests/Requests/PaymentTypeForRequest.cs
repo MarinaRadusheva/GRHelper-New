@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GRHelper.Web.ViewModels.Guests.Requests
+﻿namespace GRHelper.Web.ViewModels.Guests.Requests
 {
     public class PaymentTypeForRequest
     {

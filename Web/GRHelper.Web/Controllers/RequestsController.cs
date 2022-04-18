@@ -4,11 +4,11 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    using GRHelpe.Web.ViewModels.Guests.Requests;
     using GRHelper.Services.Data;
     using GRHelper.Web.Infrastructure;
     using GRHelper.Web.ViewModels.Guests.Requests;
     using Microsoft.AspNetCore.Mvc;
+    using GRHelper.Common;
 
     public class RequestsController : BaseController
     {
@@ -26,10 +26,18 @@
             this.hotelServicesService = hotelServicesService;
         }
 
-        public IActionResult MyRequests()
+        public IActionResult MyRequests(string id = GlobalConstants.ActiveRequestsRouteId)
         {
+            string showType = id;
+            if (showType != "Active" && showType != "Archive")
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
             var userId = this.User.Id();
-            var requests = this.requestsService.AllByUserId<RequestListViewModel>(userId);
+            var requests = this.requestsService.AllByUserId<RequestListViewModel>(userId, showType);
+            var toggleButtonText = showType == "Active" ? "Archive" : "Active";
+            this.ViewData["ShowType"] = toggleButtonText;
             return this.View(requests);
         }
 
@@ -62,7 +70,7 @@
 
             if (!dateIsValid || !this.ModelState.IsValid)
             {
-                return this.View(model.HotelServiceId);
+                return this.RedirectToAction(nameof(this.Create), new { id=model.HotelServiceId });
             }
 
             DateTime? endDate = null;
@@ -72,6 +80,33 @@
             }
 
             await this.requestsService.CreateAsync(model, endDate);
+            return this.RedirectToAction(nameof(this.MyRequests), new { id = GlobalConstants.ActiveRequestsRouteId });
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var userId = this.User.Id();
+            var userIsOwner = this.requestsService.UserIsOwner(id, userId);
+            if (!userIsOwner)
+            {
+                return this.RedirectToAction("Error", "Home");
+            }
+
+            var requestToEdit = await this.requestsService.GetById<EditRequestInputModel>(id);
+            var serviceInfo = this.hotelServicesService.GetServiceForRequest(requestToEdit.HotelServiceId);
+            requestToEdit = this.requestsService.GenerateEditModel(requestToEdit, serviceInfo);
+            return this.View(requestToEdit);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditRequestInputModel model)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.View(model);
+            }
+
+            await this.requestsService.EditAsync(model);
             return this.RedirectToAction(nameof(this.MyRequests));
         }
     }

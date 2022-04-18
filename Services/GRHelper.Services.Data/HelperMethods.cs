@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Reflection;
     using System.Text;
-    using GRHelpe.Web.ViewModels.Guests.Requests;
+
     using GRHelper.Data.Common;
-    using GRHelper.Services.Data.Models;
+    using GRHelper.Web.ViewModels.Guests.Requests;
 
     public class HelperMethods
     {
@@ -43,7 +43,7 @@
 
         public static bool RequestDateIsValid(ReservationDatesModel reservationDates, DateTime date)
         {
-            if (date < reservationDates.From || date > reservationDates.To)
+            if (date < reservationDates.From.Date || date > reservationDates.To.Date)
             {
                 return false;
             }

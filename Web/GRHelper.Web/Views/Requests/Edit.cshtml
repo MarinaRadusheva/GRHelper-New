@@ -1,0 +1,57 @@
+﻿@model GRHelper.Web.ViewModels.Guests.Requests.EditRequestInputModel
+@{
+    this.ViewData["Title"] = "Edit Request";
+}
+
+<h1>Edit Request</h1>
+<h5>@Model.Title</h5>
+<hr />
+
+<form method="post">
+    <input type="hidden" asp-for="Id" value=@Model.Id/>
+    <input type="hidden" asp-for="HotelServiceId" value=@Model.HotelServiceId />
+    <input type="hidden" asp-for="ReservationId" value=@Model.ReservationId />
+    <div class="form-group">
+        <label asp-for="IsDaily">Daily service</label>
+        <input asp-for="IsDaily" class="form-check-inline" checked="@Model.IsDaily" />
+        <span asp-validation-for="IsDaily" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Date">Date / Start date (if daily)</label>
+        <input asp-for="Date" class="form-control" placeholder=@Model.Date.ToShortDateString() />
+        <span asp-validation-for="Date" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Time"></label>
+        <input asp-for="Time" class="form-control" value=@Model.Time />
+        <span asp-validation-for="Time" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="GuestCount">Number of guests</label>
+        <input asp-for="GuestCount" class="form-control" value=@Model.GuestCount />
+        <span asp-validation-for="GuestCount" class="text-danger"></span>
+    </div>
+    @if (@Model.PaymentTypes.Count() != 0)
+    {
+        <div class="form-group">
+            <label asp-for="PaymentType">Payment method</label>
+            <select asp-for="PaymentType" class="form-control">
+                @foreach (var payment in @Model.PaymentTypes)
+                {
+                    if(@Model.PaymentType == payment.DisplayName)
+                    {
+                        <option value=@payment.EnumValue selected >@payment.DisplayName</option>
+                    }
+                    else
+                    {
+                        <option value=@payment.EnumValue>@payment.DisplayName</option>
+                    }                    
+                }
+            </select>
+            <span asp-validation-for="PaymentType" class="text-danger"></span>
+        </div>
+    }
+
+    <input class="btn btn-info" type="submit" value="Submit">
+</form>
+

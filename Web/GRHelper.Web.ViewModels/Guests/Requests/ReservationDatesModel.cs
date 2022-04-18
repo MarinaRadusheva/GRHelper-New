@@ -1,4 +1,4 @@
-﻿namespace GRHelpe.Web.ViewModels.Guests.Requests
+﻿namespace GRHelper.Web.ViewModels.Guests.Requests
 {
     using System;
 
