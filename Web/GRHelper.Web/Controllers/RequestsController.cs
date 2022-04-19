@@ -4,12 +4,12 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using GRHelper.Common;
+    using GRHelper.Data.Common;
     using GRHelper.Services.Data;
     using GRHelper.Web.Infrastructure;
     using GRHelper.Web.ViewModels.Guests.Requests;
     using Microsoft.AspNetCore.Mvc;
-    using GRHelper.Common;
-    using GRHelper.Data.Common;
 
     public class RequestsController : BaseController
     {
@@ -30,14 +30,14 @@
         public IActionResult MyRequests(string id = GlobalConstants.ActiveRequestsRouteId)
         {
             string showType = id;
-            if (showType != "Active" && showType != "Archive")
+            if (showType != GlobalConstants.ActiveRequestsRouteId && showType != GlobalConstants.ArchivedRequestsRouteId)
             {
                 return this.RedirectToAction("Error", "Home");
             }
 
             var userId = this.User.Id();
             var requests = this.requestsService.AllByUserId<RequestListViewModel>(userId, showType);
-            var toggleButtonText = showType == "Active" ? "Archive" : "Active";
+            var toggleButtonText = showType == GlobalConstants.ActiveRequestsRouteId ? GlobalConstants.ArchivedRequestsRouteId : GlobalConstants.ActiveRequestsRouteId;
             this.ViewData["ShowType"] = toggleButtonText;
             return this.View(requests);
         }
@@ -51,7 +51,8 @@
                 return this.NotFound();
             }
 
-            return this.View();
+            var requests = this.requestsService.AllByReservationId<RequestListViewModel>(id);
+            return this.View(requests);
         }
 
         public IActionResult Create(int id)

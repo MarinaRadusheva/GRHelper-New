@@ -1,0 +1,53 @@
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Guests.Requests.RequestListViewModel>
+@if (!Model.Any())
+{
+    <h3>There aren't any requests to show.</h3>
+}
+else
+{
+    <table class="table table-bordered table-light table-striped requestsTable">
+        <tr>
+            <th class="col-1">Res.<br />No</th>
+            <th>Service</th>
+            <th>Date/<br />Start Date</th>
+            <th>Time</th>
+            <th>Daily</th>
+            <th class="col-1">Guests</th>
+            <th>Cost</th>
+            <th>Status</th>
+            <th>Manage</th>
+        </tr>
+        @foreach (var request in @Model)
+        {
+            <tr>
+                <td>
+                    @request.ReservationNumber
+                </td>
+                <td>
+                    @request.HotelServiceName
+                </td>
+                <td>
+                    @request.Date.ToShortDateString()
+                </td>
+                <td>
+                    @request.Time.ToString(@"hh\:mm")
+                </td>
+                <td>
+                    @(@request.IsDaily ? "Daily" : "")
+                </td>
+                <td>
+                    @request.GuestCount
+                </td>
+                <td>
+                    @(@request.Price != null ? (@request.Price + " BGN") : "-")
+                </td>
+                <td>
+                    @request.RequestStatus
+                </td>
+                <td>
+                    <vc:manage-request-buttons request-id=@request.Id status=@request.RequestStatus start-date=@request.Date end-date=@request.EndDate></vc:manage-request-buttons>                        
+                </td>
+            </tr>
+        }
+    </table>
+}
