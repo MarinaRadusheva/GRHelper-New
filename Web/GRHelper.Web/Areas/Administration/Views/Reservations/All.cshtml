@@ -55,8 +55,8 @@
                     <a asp-area="Administration" asp-controller="Requests" asp-action="AllByReservation" asp-route-id="@reservation.Id">
                          @reservation.RequestsCount
                          @if(reservation.PendingRequestsCount!=0){
-                              <span class="text-danger">
-                             reservation.PendingRequestsCount
+                              <span class="text-danger"> / 
+                             @reservation.PendingRequestsCount
                          </span>
                          }
                     </a>                   

@@ -8,7 +8,7 @@
         public override bool IsValid(object value)
         {
             DateTime dt = (DateTime)value;
-            if (dt < DateTime.UtcNow)
+            if (dt.Date < DateTime.UtcNow.Date)
             {
                 return false;
             }

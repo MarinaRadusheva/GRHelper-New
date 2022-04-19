@@ -21,6 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\GRHelper.Data.Common\GRHelper.Data.Common.csproj" />
     <ProjectReference Include="..\..\Data\GRHelper.Data.Models\GRHelper.Data.Models.csproj" />
+    <ProjectReference Include="..\..\GRHelper.Common\GRHelper.Common.csproj" />
     <ProjectReference Include="..\..\Web\GRHelper.Web.ViewModels\GRHelper.Web.ViewModels.csproj" />
     <ProjectReference Include="..\GRHelper.Services.Mapping\GRHelper.Services.Mapping.csproj" />
   </ItemGroup>

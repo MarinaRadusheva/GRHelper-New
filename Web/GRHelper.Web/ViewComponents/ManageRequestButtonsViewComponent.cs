@@ -23,7 +23,7 @@
                 canBeCancelled = false;
             }
 
-            if ((endDate != null && endDate < DateTime.UtcNow) || (endDate == null && startDate < DateTime.UtcNow))
+            if ((endDate != null && endDate < DateTime.UtcNow.Date) || (endDate == null && startDate < DateTime.UtcNow.Date))
             {
                 canBeEdited = false;
                 canBeCancelled = false;

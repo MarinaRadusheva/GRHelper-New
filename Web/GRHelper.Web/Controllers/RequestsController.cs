@@ -9,6 +9,7 @@
     using GRHelper.Web.ViewModels.Guests.Requests;
     using Microsoft.AspNetCore.Mvc;
     using GRHelper.Common;
+    using GRHelper.Data.Common;
 
     public class RequestsController : BaseController
     {
@@ -107,6 +108,18 @@
             }
 
             await this.requestsService.EditAsync(model);
+            return this.RedirectToAction(nameof(this.MyRequests));
+        }
+
+        public async Task<IActionResult> Cancel(int id)
+        {
+            await this.requestsService.UpdateStatus(RequestStatus.Cancelled.ToString(), id);
+            return this.RedirectToAction(nameof(this.MyRequests));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            await this.requestsService.DeleteAsync(id);
             return this.RedirectToAction(nameof(this.MyRequests));
         }
     }

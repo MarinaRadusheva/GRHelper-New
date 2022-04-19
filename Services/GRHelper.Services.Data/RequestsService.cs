@@ -6,6 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using GRHelper.Common;
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Repositories;
     using GRHelper.Data.Models;
@@ -94,13 +95,17 @@
                 .Where(r => r.Reservation.GuestId == userId)
                 .OrderByDescending(x => x.Date)
                 .AsQueryable();
-            if (showType == "Archive")
+            if (showType == GlobalConstants.ArchivedRequestsRouteId)
             {
-                return requests.Where(r => r.Date < DateTime.Now).To<T>().ToList();
+                return requests.Where(r => r.Date < DateTime.Now.Date || r.RequestStatus == RequestStatus.Cancelled)
+                    .To<T>()
+                    .ToList();
             }
             else
             {
-                return requests.Where(r => r.Date >= DateTime.UtcNow).To<T>().ToList();
+                return requests.Where(r => r.Date >= DateTime.UtcNow.Date && r.RequestStatus != RequestStatus.Cancelled)
+                    .To<T>()
+                    .ToList();
             }
         }
 
