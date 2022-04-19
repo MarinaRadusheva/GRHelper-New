@@ -1,6 +1,7 @@
 ﻿namespace GRHelper.Web.ViewModels.Administration.Reservations
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using AutoMapper;
@@ -23,6 +24,8 @@
         [NotBeforeDate(nameof(From))]
         [DataType(DataType.Date)]
         public DateTime To { get; set; }
+
+        public IEnumerable<string> Villas { get; set; }
 
         public string VillaNumber { get; set; }
 

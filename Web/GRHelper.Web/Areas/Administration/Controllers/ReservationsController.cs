@@ -1,7 +1,8 @@
 ﻿namespace GRHelper.Web.Areas.Administration.Controllers
 {
+    using System;
     using System.Threading.Tasks;
-
+    using GRHelper.Data.Common;
     using GRHelper.Services.Data;
     using GRHelper.Web.ViewModels.Administration.Reservations;
     using Microsoft.AspNetCore.Mvc;
@@ -9,10 +10,12 @@
     public class ReservationsController : AdministrationController
     {
         private readonly IReservationsService reservationsService;
+        private readonly IVillasService villasService;
 
-        public ReservationsController(IReservationsService resService)
+        public ReservationsController(IReservationsService resService, IVillasService villasService)
         {
             this.reservationsService = resService;
+            this.villasService = villasService;
         }
 
         public IActionResult All()
@@ -23,7 +26,13 @@
 
         public IActionResult Create()
         {
-            return this.View();
+            var model = new CreateReservationInputModel()
+            { From = DateTime.Today,
+              To = DateTime.Today.AddDays(1),
+              AdultsCount = DataConstants.MinGuestCount,
+              Villas = this.villasService.GetVillaNumbers(),
+            };
+            return this.View(model);
         }
 
         [HttpPost]
@@ -31,6 +40,7 @@
         {
             if (!this.ModelState.IsValid)
             {
+                model.Villas = this.villasService.GetVillaNumbers();
                 return this.View(model);
             }
 
@@ -48,6 +58,7 @@
         public async Task<IActionResult> Edit(int id)
         {
             var reservation = await this.reservationsService.GetByIdAsync<EditReservationInputModel>(id);
+            reservation.Villas = this.villasService.GetVillaNumbers();
             return this.View(reservation);
         }
 
@@ -56,6 +67,7 @@
         {
             if (!this.ModelState.IsValid)
             {
+                model.Villas = this.villasService.GetVillaNumbers();
                 return this.View(model);
             }
 

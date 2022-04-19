@@ -2,6 +2,7 @@
 {
     using GRHelper.Services.Data;
     using Microsoft.AspNetCore.Mvc;
+
     public class HotelServicesController : BaseController
     {
         private readonly IHotelServicesService hotelServices;

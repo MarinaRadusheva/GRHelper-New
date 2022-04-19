@@ -7,15 +7,15 @@
 <hr />
 <div id="AdminMenu" col-md=4>
     <h4>Quick actions</h4>
-    <button id="NewReservation">
+    <a asp-area="Administration" asp-controller="Reservations" asp-action="Create" class="btn btn-info">
         New Reservation
-    </button>
-    <button id="Requests">
+    </a>
+    <a asp-area="Administration" asp-controller="Requests" asp-action="Pending" class="btn btn-info ml-5">
         See pending requests
-    </button>
-     <button id="Requests">
+    </a>
+     <a asp-area="Administration" asp-controller="Reservations" asp-action="Create" class="btn btn-info ml-5">
         Chats
-    </button>
+    </a>
 </div>
 <hr />
 <div id="unhandledRequests">

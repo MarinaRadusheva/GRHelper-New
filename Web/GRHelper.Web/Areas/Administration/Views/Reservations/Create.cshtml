@@ -27,7 +27,18 @@
     </div>
     <div class="form-group">
         <label asp-for="Villa"></label>
-        <input asp-for="Villa" class="form-control" />
+        <select asp-for="Villa" class="form-control">
+            @foreach(var villa in @Model.Villas){
+                if(@Model.Villa == villa)
+                {
+                    <option value=@villa selected>@villa</option>
+                }
+                else
+                {
+                    <option value=@villa>@villa</option>
+                }               
+            }
+        </select>
         <span asp-validation-for="Villa" class="text-danger"></span>
     </div>
     <div class="form-group">

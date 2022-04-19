@@ -3,7 +3,7 @@
     this.ViewData["Title"] = "Edit reservation";
 }
 
-<h1>Create a new reservation</h1>
+<h1>Edit reservation</h1>
 <form method="post">
     <div class="form-group">
         <label asp-for="From"></label>
@@ -27,7 +27,18 @@
     </div>
     <div class="form-group">
         <label asp-for="VillaNumber"></label>
-        <input asp-for="VillaNumber" class="form-control" value=@Model.VillaNumber />
+        <select asp-for="VillaNumber" class="form-control">
+            @foreach(var villa in @Model.Villas){
+                if(@Model.VillaNumber == villa)
+                {
+                    <option value=@villa selected>@villa</option>
+                }
+                else
+                {
+                    <option value=@villa>@villa</option>
+                }               
+            }
+        </select>
         <span asp-validation-for="VillaNumber" class="text-danger"></span>
     </div>
     <div class="form-group">

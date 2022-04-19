@@ -1,6 +1,7 @@
 ﻿namespace GRHelper.Web.ViewModels.Administration.Reservations
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
     using GRHelper.Data.Common;
@@ -20,6 +21,8 @@
         public DateTime To { get; set; }
 
         public int Number { get; set; }
+
+        public IEnumerable<string> Villas { get; set; }
 
         [Required]
         public string Villa { get; set; }
