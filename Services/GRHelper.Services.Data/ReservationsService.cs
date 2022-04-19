@@ -26,14 +26,48 @@
             this.villas = villas;
         }
 
-        public IEnumerable<T> All<T>()
+        public IEnumerable<T> All<T>(bool active)
         {
-            return this.reservations.AllAsNoTracking()
-                .Include(r => r.Villa)
-                .Include(r => r.Requests)
-                .AsQueryable()
-                .To<T>()
-                .ToList();
+            if (active)
+            {
+                return this.reservations.AllAsNoTracking()
+               .Include(r => r.Villa)
+               .Include(r => r.Requests)
+               .Where(r => r.From.Date >= DateTime.UtcNow.Date || r.To.Date >= DateTime.UtcNow.Date)
+               .OrderBy(r => r.From)
+               .AsQueryable()
+               .To<T>()
+               .ToList();
+            }
+            else
+            {
+                return this.reservations.AllAsNoTracking()
+               .Include(r => r.Villa)
+               .Include(r => r.Requests)
+               .Where(r => r.From.Date > DateTime.UtcNow.Date || r.To.Date > DateTime.UtcNow.Date)
+               .Where(r => r.To < DateTime.UtcNow.Date)
+               .OrderByDescending(r => r.From)
+               .AsQueryable()
+               .To<T>()
+               .ToList();
+            }
+        }
+
+        public IEnumerable<T> GetBySearchTerms<T>(int? number)
+        {
+            if (number == null)
+            {
+                return Enumerable.Empty<T>();
+            }
+
+            var reservations = this.reservations.AllAsNoTracking();
+
+            if (number != null)
+            {
+                reservations = reservations.Where(r => r.Number == number);
+            }
+
+            return reservations.AsQueryable().To<T>().ToList();
         }
 
         public async Task CreateAsync(CreateReservationInputModel input)
@@ -90,10 +124,10 @@
 
         public async Task<T> GetByIdAsync<T>(int id)
         {
-             return await this.reservations.AllAsNoTracking()
-                .Where(r => r.Id == id)
-                .To<T>()
-                .FirstOrDefaultAsync();
+            return await this.reservations.AllAsNoTracking()
+               .Where(r => r.Id == id)
+               .To<T>()
+               .FirstOrDefaultAsync();
         }
 
         public int GetCount()
@@ -166,6 +200,25 @@
         public bool UserIsOwner(int reservationId, string userId)
         {
             return this.reservations.AllAsNoTracking().Any(r => r.Id == reservationId && r.GuestId == userId);
+        }
+
+        private Func<Reservation, bool> GetMatches(string searchTerm)
+        => res => this.SearchMatches(res, a => a.Name, searchTerm);
+
+        private bool SearchMatches<T>(T res, Func<T, string> fun, string searchTerm)
+        {
+            var words = searchTerm.Split(" ").ToArray();
+            var result = false;
+            for (int i = 0; i < words.Length; i++)
+            {
+                if (fun(res).ToLower().Contains(words[i].ToLower()))
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
         }
     }
 }

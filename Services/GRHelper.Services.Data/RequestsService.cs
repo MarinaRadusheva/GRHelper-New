@@ -27,6 +27,11 @@
             this.hotelServices = hotelServices;
         }
 
+        public IEnumerable<T> All<T>()
+        {
+            return this.requests.AllAsNoTracking().To<T>().ToList();
+        }
+
         public async Task CreateAsync(CreateRequestInputModel input, DateTime? endDate)
         {
             decimal? price = null;
@@ -77,6 +82,14 @@
             requestToEdit.PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), input.PaymentType);
             this.requests.Update(requestToEdit);
             await this.requests.SaveChangesAsync();
+        }
+
+        public IEnumerable<T> GetPending<T>()
+        {
+            return this.requests.AllAsNoTracking()
+                .Where(r => r.RequestStatus == RequestStatus.InProgress || r.RequestStatus == RequestStatus.Waiting)
+                .To<T>()
+                .ToList();
         }
 
         public IEnumerable<T> AllByReservationId<T>(int id)

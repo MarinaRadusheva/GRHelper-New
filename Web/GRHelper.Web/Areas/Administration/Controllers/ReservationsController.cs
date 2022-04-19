@@ -20,8 +20,14 @@
 
         public IActionResult All()
         {
-            var allReservations = this.reservationsService.All<AllReservationsViewModel>();
-            return this.View(allReservations);
+            var reservations = this.reservationsService.All<AllReservationsViewModel>(true);
+            return this.View(reservations);
+        }
+
+        public IActionResult Archive()
+        {
+            var reservations = this.reservationsService.All<AllReservationsViewModel>(false);
+            return this.View(reservations);
         }
 
         public IActionResult Create()
@@ -79,6 +85,14 @@
         {
             await this.reservationsService.DeleteAsync(id);
             return this.RedirectToAction(nameof(this.All));
+        }
+
+        public IActionResult Search(int? number)
+        {
+
+            var model = this.reservationsService.GetBySearchTerms<AllReservationsViewModel>(number);
+
+            return this.View(model);
         }
     }
 }

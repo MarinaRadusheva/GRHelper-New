@@ -1,7 +1,5 @@
-﻿namespace GRHelper.Web.ViewModels.Guests.Requests
+﻿namespace GRHelper.Web.ViewModels.Administration.Requests
 {
-    using System;
-
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 

@@ -3,40 +3,60 @@
     this.ViewData["Title"] = "All Reservations";
 }
 
-<h1>All Reservations</h1>
+<h1>All present and future reservations</h1>
+
 <h2>There are @Model.Count() reservations.</h2>
+
+<div id="searchBar">
+    <form method="get" asp-area="Administration" asp-controller="Reservations" asp-action="Search" class="px-3">
+        <div class="input-group">
+            <input name="number" type="search" placeholder="Reservation number" class="form-control">
+            <div class="input-group-append">
+                <button id="button-addon1" type="submit" class="btn btn-info text-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>
 <hr />
-<button id="createReservationBtn" class="btn btn-outline-info">
-    <a asp-area="Administration" asp-controller="Reservations" asp-action="Create" title="Create reservation">
-        Create New
-    </a>
-</button>
+<div>
+    <button id="createReservationBtn" class="btn btn-info">
+        <a asp-area="Administration" asp-controller="Reservations" asp-action="Create" title="Create reservation" style="color: white">
+            Create New
+        </a>
+    </button>
+    <button id="createReservationBtn" class="btn btn-outline-info" style="float: right">
+        <a asp-area="Administration" asp-controller="Reservations" asp-action="Archive" title="View archive">
+            Archive
+        </a>
+    </button>
+</div>
+
 <hr />
 <table class="table table-bordered table-striped table-light">
     <thead class="table-info">
-           <tr>
-               <th scope=col class="col-1">
-                   Reservation No
-               </th>
-               <th scope=col>
-                   From
-               </th>
-               <th scope=col>
-                   Villa
-               </th>
-               <th scope=col>
-                   Name
-               </th>
-               <th scope=col class="col-1">
-                   Requests(Pending)
-               </th>
-               <th scope=col>
-                   Actions
-               </th>
-           </tr>
-       </thead>
-       <tbody>
-        @foreach(var reservation in Model)
+        <tr>
+            <th scope=col class="col-1">
+                Reservation No
+            </th>
+            <th scope=col>
+                From
+            </th>
+            <th scope=col>
+                Villa
+            </th>
+            <th scope=col>
+                Name
+            </th>
+            <th scope=col class="col-1">
+                Requests(Pending)
+            </th>
+            <th scope=col>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model)
         {
             <tr>
                 <td>
@@ -53,13 +73,15 @@
                 </td>
                 <td>
                     <a asp-area="Administration" asp-controller="Requests" asp-action="AllByReservation" asp-route-id="@reservation.Id">
-                         @reservation.RequestsCount
-                         @if(reservation.PendingRequestsCount!=0){
-                              <span class="text-danger"> / 
-                             @reservation.PendingRequestsCount
-                         </span>
-                         }
-                    </a>                   
+                        @reservation.RequestsCount
+                        @if (reservation.PendingRequestsCount != 0)
+                        {
+                            <span class="text-danger">
+                                (
+                                @reservation.PendingRequestsCount )
+                            </span>
+                        }
+                    </a>
                 </td>
                 <td>
                     <a asp-area="Administration" asp-controller="Reservations" asp-action="Details" asp-route-id="@reservation.Id" class="btn btn-outline-info ml-3">Details</a>

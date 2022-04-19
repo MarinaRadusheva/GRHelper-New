@@ -12,7 +12,9 @@
 
         int GetCount();
 
-        IEnumerable<T> All<T>();
+        IEnumerable<T> All<T>(bool active);
+
+        IEnumerable<T> GetBySearchTerms<T>(int? number);
 
         Task<T> GetByIdAsync<T>(int id);
 

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Administration.Reservations.AllReservationsViewModel>
+@{
+    this.ViewData["Title"] = "Past Reservations";
+}
+
+<h1>Past Reservations</h1>
+<h2>There are @Model.Count() reservations.</h2>
+<hr />
+<div>
+    <button id="createReservationBtn" class="btn btn-outline-info">
+    <a asp-area="Administration" asp-controller="Reservations" asp-action="All" title="View active reservations">
+        Active
+    </a>
+</button>
+</div>
+<hr />
+<table class="table table-bordered table-striped table-light">
+    <thead class="table-info">
+           <tr>
+               <th scope=col class="col-1">
+                   Reservation No
+               </th>
+               <th scope=col>
+                   From
+               </th>
+               <th scope=col>
+                   Villa
+               </th>
+               <th scope=col>
+                   Name
+               </th>
+               <th scope=col class="col-1">
+                   Requests(Pending)
+               </th>
+               <th scope=col>
+                   Actions
+               </th>
+           </tr>
+       </thead>
+       <tbody>
+        @foreach(var reservation in Model)
+        {
+            <tr>
+                <td>
+                    @reservation.Number
+                </td>
+                <td>
+                    @reservation.From.ToShortDateString()
+                </td>
+                <td>
+                    @reservation.VillaNumber
+                </td>
+                <td>
+                    @reservation.Name
+                </td>
+                <td>
+                    <a asp-area="Administration" asp-controller="Requests" asp-action="AllByReservation" asp-route-id="@reservation.Id">
+                         @reservation.RequestsCount
+                         @if(reservation.PendingRequestsCount!=0){
+                              <span class="text-danger"> / 
+                             @reservation.PendingRequestsCount
+                         </span>
+                         }
+                    </a>                   
+                </td>
+                <td>
+                    <a asp-area="Administration" asp-controller="Reservations" asp-action="Details" asp-route-id="@reservation.Id" class="btn btn-outline-info ml-3">Details</a>
+                    <a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@reservation.Id" class="btn btn-info ml-3">Edit</a>
+                    <a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@reservation.Id" class="btn btn-outline-danger ml-3">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

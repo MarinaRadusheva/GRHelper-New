@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using AutoMapper;
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Validation;
     using GRHelper.Data.Models;

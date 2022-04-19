@@ -36,8 +36,4 @@
     <ProjectReference Include="..\GRHelper.Web.Infrastructure\GRHelper.Web.Infrastructure.csproj" />
     <ProjectReference Include="..\GRHelper.Web.ViewModels\GRHelper.Web.ViewModels.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Areas\Administration\Views\Requests\" />
-  </ItemGroup>
 </Project>
