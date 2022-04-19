@@ -1,11 +1,7 @@
 ﻿namespace GRHelper.Web.ViewModels.Guests.Requests
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using AutoMapper;
+
     using GRHelper.Data.Models;
     using GRHelper.Services.Mapping;
 
@@ -30,6 +26,5 @@
         public decimal? Price { get; set; }
 
         public string RequestStatus { get; set; }
-
     }
 }

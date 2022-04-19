@@ -38,7 +38,7 @@
             <select asp-for="PaymentType" class="form-control">
                 @foreach (var payment in @Model.PaymentTypes)
                 {
-                    if(@Model.PaymentType == payment.DisplayName)
+                    if(@Model.PaymentType == payment.EnumString)
                     {
                         <option value=@payment.EnumValue selected >@payment.DisplayName</option>
                     }

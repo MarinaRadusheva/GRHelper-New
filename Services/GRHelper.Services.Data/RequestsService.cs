@@ -138,7 +138,7 @@
 
         public CreateRequestInputModel GenerateRequestModel(HotelServiceForRequestDto serviceInfo, List<ReservationForRequestDto> reservations)
         {
-            var paymentTypesToDisplay = this.GetPaymentList(serviceInfo);
+            var paymentTypesToDisplay = GetPaymentList(serviceInfo);
             return new CreateRequestInputModel()
             {
                 Title = serviceInfo.DisplayName,
@@ -158,13 +158,13 @@
 
         public EditRequestInputModel GenerateEditModel(EditRequestInputModel model, HotelServiceForRequestDto serviceInfo)
         {
-            var paymentTypesToDisplay = this.GetPaymentList(serviceInfo);
+            var paymentTypesToDisplay = GetPaymentList(serviceInfo);
             model.PaymentTypes = paymentTypesToDisplay;
             model.Title = serviceInfo.DisplayName;
             return model;
         }
 
-        private List<PaymentTypeForRequest> GetPaymentList(HotelServiceForRequestDto serviceInfo)
+        private static List<PaymentTypeForRequest> GetPaymentList(HotelServiceForRequestDto serviceInfo)
         {
             var paymentTypesToDisplay = new List<PaymentTypeForRequest>();
             if (serviceInfo.Paid)
@@ -178,6 +178,7 @@
                         {
                             DisplayName = HelperMethods.GetAttribute<DisplayAttribute>(payType).Name,
                             EnumValue = (int)payType,
+                            EnumString = payType.ToString(),
                         });
                     }
                 }
