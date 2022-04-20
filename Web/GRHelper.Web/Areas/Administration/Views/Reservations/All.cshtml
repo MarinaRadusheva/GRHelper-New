@@ -7,17 +7,7 @@
 
 <h2>There are @Model.ReservationsCount reservations.</h2>
 
-<div id="searchBar">
-    <form method="get" asp-area="Administration" asp-controller="Reservations" asp-action="Search" class="px-3">
-        <div class="input-group">
-            <input name="number" type="search" placeholder="Reservation number" class="form-control">
-            <div class="input-group-append">
-                <button id="button-addon1" type="submit" class="btn btn-info text-primary">Search</button>
-            </div>
-        </div>
-    </form>
-</div>
-<hr />
+<partial name="_SearchBarPartial" />
 
 <div>
     <button id="createReservationBtn" class="btn btn-info">

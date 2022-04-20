@@ -16,7 +16,14 @@
                 <a class="nav-link text-dark" asp-area="Administration" asp-controller="Requests" asp-action="All" title="All requests">Requests</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Administration" asp-controller="Reservations" asp-action="All" title="All reservations">Reservations</a>
+                <div class="dropdown">
+                        <a class="nav-link text-dark dropbtn" asp-area="Administration" asp-controller="Reservations" asp-action="All" title="Active reservations">Reservations <i class="fa fa-caret-down"></i></a>
+
+                    <div class="dropdown-content">
+                        <a class="nav-link text-dark" asp-area="Administration" asp-controller="Reservations" asp-action="Search" title="Search">Search</a>
+                        <a class="nav-link text-dark" asp-area="Administration" asp-controller="Reservations" asp-action="Archive" title="Past reservations">Archive</a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark" asp-area="Administration" asp-controller="Users" asp-action="All" title="Users">Users</a>
@@ -24,7 +31,7 @@
         }
         else
         {
-             <li class="nav-item">
+            <li class="nav-item">
                 <a class="nav-link text-dark" asp-controller="Requests" asp-action="MyRequests" asp-route-id="Active" title="My requests">My Requests</a>
             </li>
             <li class="nav-item">
