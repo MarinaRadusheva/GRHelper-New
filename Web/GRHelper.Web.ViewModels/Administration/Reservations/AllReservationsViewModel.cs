@@ -1,37 +1,28 @@
 ﻿namespace GRHelper.Web.ViewModels.Administration.Reservations
 {
     using System;
-    using System.Linq;
+    using System.Collections.Generic;
 
-    using AutoMapper;
+    using GRHelper.Common;
 
-    using GRHelper.Data.Common;
-    using GRHelper.Data.Models;
-    using GRHelper.Services.Mapping;
-
-    public class AllReservationsViewModel : IMapFrom<Reservation>, IHaveCustomMappings
+    public class AllReservationsViewModel
     {
-        public int Id { get; set; }
+        public IEnumerable<ReservationListViewModel> Reservations { get; set; }
 
-        public int Number { get; set; }
+        public int ReservationsCount { get; set; }
 
-        public DateTime From { get; set; }
+        public int ReservationsPerPage { get; set; } = GlobalConstants.ItemsPerPage;
 
-        public string Name { get; set; }
+        public int PagesCount => (int)Math.Ceiling((double)this.ReservationsCount / this.ReservationsPerPage);
 
-        public string VillaNumber { get; set; }
+        public int PageNumber { get; set; }
 
-        public int RequestsCount { get; set; }
+        public bool HasPrevious => this.PageNumber > 1;
 
-        public int PendingRequestsCount { get; set; }
+        public bool HasNext => this.PageNumber < this.PagesCount;
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Reservation, AllReservationsViewModel>()
-                .ForMember(m => m.RequestsCount, opt => opt.MapFrom(r => r.Requests.Count))
-                .ForMember(m => m.PendingRequestsCount, opt => opt.MapFrom(r => r.Requests
-                        .Where(x => x.RequestStatus == RequestStatus.Waiting || x.RequestStatus == RequestStatus.InProgress)
-                        .ToList().Count));
-        }
+        public int PrevPageNumber => this.PageNumber - 1;
+
+        public int NextPageNumber => this.PageNumber + 1;
     }
 }

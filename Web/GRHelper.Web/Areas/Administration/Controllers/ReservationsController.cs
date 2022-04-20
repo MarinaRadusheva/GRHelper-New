@@ -1,7 +1,9 @@
 ﻿namespace GRHelper.Web.Areas.Administration.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
+
     using GRHelper.Data.Common;
     using GRHelper.Services.Data;
     using GRHelper.Web.ViewModels.Administration.Reservations;
@@ -18,16 +20,30 @@
             this.villasService = villasService;
         }
 
-        public IActionResult All()
+        public IActionResult All(int id = 1)
         {
-            var reservations = this.reservationsService.All<AllReservationsViewModel>(true);
-            return this.View(reservations);
+            var allReservationsCount = this.reservationsService.GetCount(true);
+            var reservations = this.reservationsService.All<ReservationListViewModel>(true, id);
+            var model = new AllReservationsViewModel()
+            {
+                Reservations = reservations,
+                PageNumber = id,
+                ReservationsCount = allReservationsCount,
+            };
+            return this.View(model);
         }
 
-        public IActionResult Archive()
+        public IActionResult Archive(int id = 1)
         {
-            var reservations = this.reservationsService.All<AllReservationsViewModel>(false);
-            return this.View(reservations);
+            var allReservationsCount = this.reservationsService.GetCount(false);
+            var reservations = this.reservationsService.All<ReservationListViewModel>(false, id);
+            var model = new AllReservationsViewModel()
+            {
+                Reservations = reservations,
+                PageNumber = id,
+                ReservationsCount = allReservationsCount,
+            };
+            return this.View(model);
         }
 
         public IActionResult Create()
@@ -90,8 +106,12 @@
         public IActionResult Search(int? number)
         {
 
-            var model = this.reservationsService.GetBySearchTerms<AllReservationsViewModel>(number);
-
+            var results = this.reservationsService.GetBySearchTerms<ReservationListViewModel>(number);
+            var model = new SearchResultsViewModel()
+            {
+                Reservations = results,
+                ReservationsCount = results.Count(),
+            };
             return this.View(model);
         }
     }

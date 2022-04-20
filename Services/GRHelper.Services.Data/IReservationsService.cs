@@ -10,9 +10,9 @@
     {
         Task CreateAsync(CreateReservationInputModel input);
 
-        int GetCount();
+        int GetCount(bool active);
 
-        IEnumerable<T> All<T>(bool active);
+        IEnumerable<T> All<T>(bool active, int pageNumber);
 
         IEnumerable<T> GetBySearchTerms<T>(int? number);
 

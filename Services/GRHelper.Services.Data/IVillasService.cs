@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace GRHelper.Services.Data
+﻿namespace GRHelper.Services.Data
 {
+    using System.Collections.Generic;
+
     public interface IVillasService
     {
         IEnumerable<string> GetVillaNumbers();

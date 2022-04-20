@@ -1,0 +1,59 @@
+﻿<table class="table table-bordered table-striped table-light">
+    <thead class="table-info">
+        <tr>
+            <th scope=col class="col-1">
+                Reservation No
+            </th>
+            <th scope=col>
+                From
+            </th>
+            <th scope=col>
+                Villa
+            </th>
+            <th scope=col>
+                Name
+            </th>
+            <th scope=col class="col-1">
+                Requests(Pending)
+            </th>
+            <th scope=col>
+                Actions
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in @Model.Reservations)
+        {
+            <tr>
+                <td>
+                    @reservation.Number
+                </td>
+                <td>
+                    @reservation.From.ToShortDateString()
+                </td>
+                <td>
+                    @reservation.VillaNumber
+                </td>
+                <td>
+                    @reservation.Name
+                </td>
+                <td>
+                    <a asp-area="Administration" asp-controller="Requests" asp-action="AllByReservation" asp-route-id="@reservation.Id">
+                        @reservation.RequestsCount
+                        @if (reservation.PendingRequestsCount != 0)
+                        {
+                            <span class="text-danger">
+                                (
+                                @reservation.PendingRequestsCount )
+                            </span>
+                        }
+                    </a>
+                </td>
+                <td>
+                    <vc:manage-res-buttons id=@reservation.Id requests-count=@reservation.RequestsCount date-to=@reservation.To>
+                    </vc:manage-res-buttons>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

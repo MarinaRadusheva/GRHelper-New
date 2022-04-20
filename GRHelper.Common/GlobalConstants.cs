@@ -9,5 +9,7 @@
         public const string ActiveRequestsRouteId = "Active";
 
         public const string ArchivedRequestsRouteId = "Archive";
+
+        public const int ItemsPerPage = 3;
     }
 }

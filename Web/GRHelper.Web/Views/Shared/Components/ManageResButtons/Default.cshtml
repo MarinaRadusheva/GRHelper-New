@@ -1,0 +1,5 @@
+﻿@model GRHelper.Web.ViewModels.Administration.Reservations.ManageResButtonsViewModel
+
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Details" asp-route-id="@Model.ReservationId" class="btn btn-outline-info ml-3">Details</a>
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@Model.ReservationId" class=@(@Model.CanEdit ? "btn btn-info ml-3" : "btn btn-secondary ml-3 disabled")>Edit</a>
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.ReservationId" class=@(@Model.CanDelete ? "btn btn-outline-danger ml-3" : "btn btn-secondary ml-3 disabled")>Delete</a>

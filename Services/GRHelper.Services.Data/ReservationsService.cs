@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using GRHelper.Common;
     using GRHelper.Data.Common;
     using GRHelper.Data.Common.Repositories;
     using GRHelper.Data.Models;
@@ -26,7 +26,7 @@
             this.villas = villas;
         }
 
-        public IEnumerable<T> All<T>(bool active)
+        public IEnumerable<T> All<T>(bool active, int pageNumber)
         {
             if (active)
             {
@@ -35,6 +35,8 @@
                .Include(r => r.Requests)
                .Where(r => r.From.Date >= DateTime.UtcNow.Date || r.To.Date >= DateTime.UtcNow.Date)
                .OrderBy(r => r.From)
+               .Skip((pageNumber - 1) * GlobalConstants.ItemsPerPage)
+               .Take(GlobalConstants.ItemsPerPage)
                .AsQueryable()
                .To<T>()
                .ToList();
@@ -44,7 +46,6 @@
                 return this.reservations.AllAsNoTracking()
                .Include(r => r.Villa)
                .Include(r => r.Requests)
-               .Where(r => r.From.Date > DateTime.UtcNow.Date || r.To.Date > DateTime.UtcNow.Date)
                .Where(r => r.To < DateTime.UtcNow.Date)
                .OrderByDescending(r => r.From)
                .AsQueryable()
@@ -125,14 +126,25 @@
         public async Task<T> GetByIdAsync<T>(int id)
         {
             return await this.reservations.AllAsNoTracking()
+               .Include(r => r.Requests)
                .Where(r => r.Id == id)
                .To<T>()
                .FirstOrDefaultAsync();
         }
 
-        public int GetCount()
+        public int GetCount(bool active)
         {
-            return this.reservations.AllAsNoTracking().Count();
+            var all = this.reservations.AllAsNoTracking();
+            if (active)
+            {
+                return all.Where(r => r.From.Date >= DateTime.UtcNow.Date || r.To.Date >= DateTime.UtcNow.Date)
+                    .Count();
+            }
+            else
+            {
+                return all.Where(r => r.To < DateTime.UtcNow.Date)
+               .Where(r => r.To < DateTime.UtcNow.Date).Count();
+            }
         }
 
         public IEnumerable<T> AllByGuestId<T>(string id)

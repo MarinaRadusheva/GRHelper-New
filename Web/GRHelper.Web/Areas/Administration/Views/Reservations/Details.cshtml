@@ -56,8 +56,8 @@
 </table>
 <hr />
 
-<a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info ml-3">Edit</a>
-<a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-outline-danger ml-3">Delete</a>
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Edit" asp-route-id="@Model.Id" class=@(@Model.Editable ? "btn btn-info ml-3" : "btn btn-secondary ml-3 disabled")>Edit</a>
+<a asp-area="Administration" asp-controller="Reservations" asp-action="Delete" asp-route-id="@Model.Id" class=@(@Model.Deletable ? "btn btn-outline-danger ml-3" : "btn btn-secondary ml-3 disabled")>Delete</a>
 
 @section Scripts {
     <script>
