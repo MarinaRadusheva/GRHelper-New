@@ -58,6 +58,13 @@
                 throw new ArgumentException("User with this email does not exist");
             }
 
+            bool isAdmin = await this.userManager.IsInRoleAsync(user, GlobalConstants.AdministratorRoleName);
+
+            if (isAdmin)
+            {
+                throw new ArgumentException("User cannot be deleted");
+            }
+
             if (user.IsDeleted)
             {
                 throw new ArgumentException("User already deleted.");

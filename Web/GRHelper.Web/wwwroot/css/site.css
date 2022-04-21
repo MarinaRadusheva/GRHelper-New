@@ -150,3 +150,46 @@ article.categoryArticle {
 .dropdown-content a:hover {
     background-color: #ddd;
 }
+
+#usersActions div.userActionDiv {
+    display: inline-block;
+    border-style: solid;
+    width: 45%;
+    border-color: beige;
+    border-radius: 10px;
+    padding: 12px;
+    background-color: aliceblue;
+}
+
+#hideMe {
+    -webkit-animation: cssAnimation 5s forwards;
+    animation: cssAnimation 5s forwards;
+}
+
+@keyframes cssAnimation {
+    0% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@-webkit-keyframes cssAnimation {
+    0% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
