@@ -1,6 +1,7 @@
 ﻿namespace GRHelper.Services.Data
 {
     using System.Collections.Generic;
+
     using GRHelper.Services.Data.Models;
     using GRHelper.Web.ViewModels.Guests.HotelServices;
 

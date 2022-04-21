@@ -68,6 +68,7 @@
             services.AddTransient<IRequestsService, RequestsService>();
             services.AddTransient<IHotelServicesService, HotelServicesService>();
             services.AddTransient<IVillasService, VillasService>();
+            services.AddTransient<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

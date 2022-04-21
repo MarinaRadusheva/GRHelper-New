@@ -1,7 +1,7 @@
 ﻿namespace GRHelper.Web.ViewComponents
 {
     using System;
-    
+
     using GRHelper.Web.ViewModels.Administration.Reservations;
     using Microsoft.AspNetCore.Mvc;
 

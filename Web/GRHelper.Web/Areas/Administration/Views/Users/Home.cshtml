@@ -1,0 +1,36 @@
+﻿@model GRHelper.Web.ViewModels.Administration.Users.AddEmployeeInputModel
+@{
+    this.ViewData["Title"] = "Users admin page";
+}
+<h1>Manage users</h1>
+@if(this.TempData["Message"] != null){
+    <div>@this.TempData["Message"]</div>
+}
+<div id"addEmployeeDiv">
+    <h3>Add a new team member</h3>
+    <form method="post" asp-area="Administration" asp-controller="Users" asp-action="AddEmployee">
+        <div asp-validation-summary="All"></div>
+        <div class="form-group">
+            <label asp-for="Email"></label>
+            <input asp-for="Email" />
+            <span asp-validation-for="Email"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Password"></label>
+            <input asp-for="Password" />
+            <span asp-validation-for="Password"></span>
+        </div>
+        <button type="submit" class="btn btn-info">Submit</button>
+    </form>
+</div>
+<hr />
+<div id="deleteUserDiv">
+    <h3>Delete user</h3>
+    <form methiod="get" asp-area="Administration" asp-controller="Users" asp-action="Delete">
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" name="email" />
+        </div>
+        <button type="submit" class="btn btn-info">Delete</button>
+    </form>
+</div>

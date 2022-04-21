@@ -39,6 +39,7 @@
             };
             await userManager.CreateAsync(admin, adminPass);
             await userManager.AddToRoleAsync(admin, GlobalConstants.AdministratorRoleName);
+            await userManager.AddToRoleAsync(admin, GlobalConstants.EmployeeRoleName);
             await dbContext.SaveChangesAsync();
         }
     }

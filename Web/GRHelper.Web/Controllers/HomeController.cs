@@ -24,7 +24,7 @@
         public IActionResult Index()
         {
             var user = this.signInManager.IsSignedIn(this.User);
-            var userisAdmin = user ? this.User.IsInRole(GlobalConstants.AdministratorRoleName) : false;
+            var userisAdmin = user ? this.User.IsInRole(GlobalConstants.EmployeeRoleName) : false;
             if (user && userisAdmin)
             {
                 return this.View("~/Areas/Administration/Views/Administration/Index.cshtml");

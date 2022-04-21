@@ -3,6 +3,7 @@
 namespace GRHelper.Data.Migrations
 {
     using System;
+
     using Microsoft.EntityFrameworkCore.Migrations;
 
     public partial class ModelsAdded : Migration

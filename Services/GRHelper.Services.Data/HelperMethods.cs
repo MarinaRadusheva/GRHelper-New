@@ -28,7 +28,6 @@
 
         public static IEnumerable<PaymentType> GetPaymentTypes()
         {
-
             return (PaymentType[])Enum.GetValues(typeof(PaymentType));
         }
 

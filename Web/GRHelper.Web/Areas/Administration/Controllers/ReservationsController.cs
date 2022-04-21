@@ -49,10 +49,11 @@
         public IActionResult Create()
         {
             var model = new CreateReservationInputModel()
-            { From = DateTime.Today,
-              To = DateTime.Today.AddDays(1),
-              AdultsCount = DataConstants.MinGuestCount,
-              Villas = this.villasService.GetVillaNumbers(),
+            {
+                From = DateTime.Today,
+                To = DateTime.Today.AddDays(1),
+                AdultsCount = DataConstants.MinGuestCount,
+                Villas = this.villasService.GetVillaNumbers(),
             };
             return this.View(model);
         }
@@ -105,7 +106,6 @@
 
         public IActionResult Search(int? number)
         {
-
             var results = this.reservationsService.GetBySearchTerms<ReservationListViewModel>(number);
             var model = new SearchResultsViewModel()
             {
