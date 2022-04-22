@@ -11,6 +11,8 @@
     {
         IEnumerable<T> All<T>();
 
+        IEnumerable<T> All<T>(DateTime startDate, DateTime endDate);
+
         IEnumerable<T> AllByReservationId<T>(int id);
 
         IEnumerable<T> AllByUserId<T>(string userId, string showType);

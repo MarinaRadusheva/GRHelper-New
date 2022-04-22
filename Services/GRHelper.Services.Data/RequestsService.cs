@@ -32,6 +32,11 @@
             return this.requests.AllAsNoTracking().To<T>().ToList();
         }
 
+        public IEnumerable<T> All<T>(DateTime startDate, DateTime endDate)
+        {
+            return this.requests.AllAsNoTracking().Where(r => r.Date >= startDate && (r.EndDate != null ? r.EndDate <= endDate : r.Date <= endDate)).To<T>().ToList();
+        }
+
         public async Task CreateAsync(CreateRequestInputModel input, DateTime? endDate)
         {
             decimal? price = null;
@@ -87,7 +92,7 @@
         public IEnumerable<T> GetPending<T>()
         {
             return this.requests.AllAsNoTracking()
-                .Where(r => r.RequestStatus == RequestStatus.InProgress || r.RequestStatus == RequestStatus.Waiting)
+                .Where(r => (r.RequestStatus == RequestStatus.Waiting) && (r.Date >= DateTime.UtcNow.Date || (r.EndDate != null && r.EndDate >= DateTime.UtcNow.Date)))
                 .To<T>()
                 .ToList();
         }

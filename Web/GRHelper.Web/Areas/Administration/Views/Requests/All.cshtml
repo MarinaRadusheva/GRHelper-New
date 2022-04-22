@@ -1,6 +1,29 @@
-﻿@model IEnumerable<GRHelper.Web.ViewModels.Administration.Requests.RequestListViewModel>
+﻿@model GRHelper.Web.ViewModels.Administration.Requests.AllRequestsViewModel
 @{
     this.ViewData["Title"] = "All requests";
 }
 
-<partial name="_RequestsTablePartial" />
+<h1>Requests</h1>
+<hr />
+<div id="searchRequestsDiv">
+    <form method="get" asp-area="Administration" asp-controller="Requests" asp-action="AllSearch">
+        <div class="form-group">
+            <p>Select dates</p>
+            <label for="today">Today</label>
+            <input name="datePicker" type="radio" id="today" />
+            <label for="tomorrow">Tomorrow</label>
+            <input name="datePicker" type="radio" id="tomorrow" />
+            <div>
+                <label for="custom">Choose dates</label>
+                <input name="datePicker" type="radio" id="custom" />
+                <label for="from">From:</label>
+                <input name="from" type="date" />
+                <label for="to">To:</label>
+                <input name="to" type="date"/>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-info" value="Search"/>
+    </form>
+</div>
+
+<partial name="_RequestsTablePartial" model=@Model.Requests />

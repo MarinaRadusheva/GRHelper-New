@@ -3,6 +3,7 @@
     using GRHelper.Services.Data;
     using GRHelper.Web.ViewModels.Administration.Requests;
     using Microsoft.AspNetCore.Mvc;
+    using System;
 
     public class RequestsController : AdministrationController
     {
@@ -16,7 +17,25 @@
         public IActionResult All()
         {
             var model = this.requestsService.All<RequestListViewModel>();
-            return this.View(model);
+            var allmodel = new AllRequestsViewModel()
+            {
+                Requests = model,
+                From = DateTime.MinValue,
+                To = DateTime.MaxValue,
+            };
+            return this.View(allmodel);
+        }
+
+        public IActionResult AllSearch(DateTime from, DateTime to)
+        {
+            var model = this.requestsService.All<RequestListViewModel>(from, to);
+            var allmodel = new AllRequestsViewModel()
+            {
+                Requests = model,
+                From = from,
+                To = to,
+            };
+            return this.View("All", allmodel);
         }
 
         public IActionResult Pending()
