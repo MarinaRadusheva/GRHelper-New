@@ -32,9 +32,21 @@
             return this.requests.AllAsNoTracking().To<T>().ToList();
         }
 
-        public IEnumerable<T> All<T>(DateTime startDate, DateTime endDate)
+        public IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate)
         {
-            return this.requests.AllAsNoTracking().Where(r => r.Date >= startDate && (r.EndDate != null ? r.EndDate <= endDate : r.Date <= endDate)).To<T>().ToList();
+            var requests = this.requests.AllAsNoTracking();
+            var dateToday = DateTime.UtcNow.Date;
+            var dateTomorrow = dateToday.AddDays(1);
+            requests = datePicker switch
+            {
+                "today" => requests.Where(r => (r.IsDaily && (dateToday >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateToday == r.Date.Date)),
+                "tomorrow" => requests.Where(r => (r.IsDaily && (dateTomorrow >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateTomorrow == r.Date.Date)),
+                "custom" => requests.Where(r => (!r.IsDaily && (r.Date >= startDate && r.Date <= endDate))
+                    || (r.IsDaily && ((r.EndDate >= startDate && r.EndDate <= endDate) || (startDate >= r.Date && r.EndDate <= endDate) || (r.Date <= startDate && r.EndDate >= endDate)))),
+                _ => throw new ArgumentException("Invalid date parameter"),
+            };
+
+            return requests.To<T>().ToList();
         }
 
         public async Task CreateAsync(CreateRequestInputModel input, DateTime? endDate)

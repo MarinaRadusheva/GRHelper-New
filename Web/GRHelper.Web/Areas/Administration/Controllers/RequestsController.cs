@@ -16,26 +16,27 @@
 
         public IActionResult All()
         {
-            var model = this.requestsService.All<RequestListViewModel>();
-            var allmodel = new AllRequestsViewModel()
+            var requests = this.requestsService.All<RequestListViewModel>();
+            var model = new AllRequestsViewModel()
             {
-                Requests = model,
-                From = DateTime.MinValue,
-                To = DateTime.MaxValue,
+                Requests = requests,
+                From = DateTime.UtcNow.Date,
+                To = DateTime.UtcNow.Date,
             };
-            return this.View(allmodel);
+            return this.View(model);
         }
 
-        public IActionResult AllSearch(DateTime from, DateTime to)
+        public IActionResult AllSearch(string datePicker, DateTime from, DateTime to)
         {
-            var model = this.requestsService.All<RequestListViewModel>(from, to);
-            var allmodel = new AllRequestsViewModel()
+            var requests = this.requestsService.All<RequestListViewModel>(datePicker, from, to);
+            var model = new AllRequestsViewModel()
             {
-                Requests = model,
-                From = from,
-                To = to,
+                Requests = requests,
+                DatePicker = datePicker,
+                From = from.Date,
+                To = to.Date,
             };
-            return this.View("All", allmodel);
+            return this.View("All", model);
         }
 
         public IActionResult Pending()

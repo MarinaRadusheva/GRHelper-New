@@ -8,22 +8,32 @@
 <div id="searchRequestsDiv">
     <form method="get" asp-area="Administration" asp-controller="Requests" asp-action="AllSearch">
         <div class="form-group">
-            <p>Select dates</p>
             <label for="today">Today</label>
-            <input name="datePicker" type="radio" id="today" />
-            <label for="tomorrow">Tomorrow</label>
-            <input name="datePicker" type="radio" id="tomorrow" />
-            <div>
-                <label for="custom">Choose dates</label>
-                <input name="datePicker" type="radio" id="custom" />
-                <label for="from">From:</label>
-                <input name="from" type="date" />
-                <label for="to">To:</label>
-                <input name="to" type="date"/>
-            </div>
+            <input name="datePicker" type="radio" id="today" value="today" class="mr-3" checked=@(@Model.DatePicker == "today") />
+            <label for="tomorrow">Tomorrow</label> 
+            <input name="datePicker" type="radio" id="tomorrow" value="tomorrow" class="mr-3" checked=@(@Model.DatePicker == "tomorrow") />
+            <span class="ml-3 mr-3 font-weight-bold">or</span>
+                <label for="custom" class="ml-3">Choose dates</label>
+                <input name="datePicker" type="radio" id="custom" value="custom" class="mr-3" checked=@(@Model.DatePicker == "custom") />
+                <label asp-for="From">From:</label>
+                <input asp-for="From" asp-value=@Model.From.ToShortDateString()/>
+                <label asp-for="To">To:</label>
+                <input asp-for="To" asp-value=@Model.To.ToShortDateString()/>
+        </div>
+        <div>
+
         </div>
         <input type="submit" class="btn btn-info" value="Search"/>
     </form>
 </div>
+<hr />
+@if(this.Context.Request.RouteValues["action"].ToString() == "All")
+{
+    <h2>Requests for today.</h2>
+}
+else
+{
+    <h2>@Model.Requests.Count() results found.</h2>
+}
 
 <partial name="_RequestsTablePartial" model=@Model.Requests />
