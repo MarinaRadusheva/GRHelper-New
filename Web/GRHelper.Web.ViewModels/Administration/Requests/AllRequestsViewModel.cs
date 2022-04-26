@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GRHelper.Web.ViewModels.Administration.Requests
+﻿namespace GRHelper.Web.ViewModels.Administration.Requests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+
     public class AllRequestsViewModel
     {
         public IEnumerable<RequestListViewModel> Requests { get; set; }
@@ -18,5 +15,7 @@ namespace GRHelper.Web.ViewModels.Administration.Requests
 
         [DataType(DataType.Date)]
         public DateTime To { get; set; }
+
+        public List<StatusForRequestSearchModel> Statuses { get; set; }
     }
 }

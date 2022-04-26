@@ -2,11 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Linq;
     using System.Reflection;
     using System.Text;
 
     using GRHelper.Data.Common;
+    using GRHelper.Web.ViewModels.Administration.Requests;
     using GRHelper.Web.ViewModels.Guests.Requests;
 
     public class HelperMethods
@@ -31,6 +33,11 @@
             return (PaymentType[])Enum.GetValues(typeof(PaymentType));
         }
 
+        public static IEnumerable<T> GetEnumTypes<T>()
+        {
+            return (T[])Enum.GetValues(typeof(T));
+        }
+
         public static TAttribute GetAttribute<TAttribute>(Enum enumValue)
             where TAttribute : Attribute
         {
@@ -38,6 +45,27 @@
                             .GetMember(enumValue.ToString())
                             .First()
                             .GetCustomAttribute<TAttribute>();
+        }
+
+        public static List<StatusForRequestSearchModel> LoadStatuses()
+        {
+            var allStatuses = new List<StatusForRequestSearchModel>();
+            var enumValues = GetEnumTypes<RequestStatus>();
+            foreach (var enumValue in enumValues)
+            {
+                if (enumValue != 0)
+                {
+                    allStatuses.Add(new StatusForRequestSearchModel
+                    {
+                        DisplayName = HelperMethods.GetAttribute<DisplayAttribute>(enumValue).Name,
+                        EnumString = enumValue.ToString(),
+                        EnumValue = (int)enumValue,
+                        Selected = false,
+                    });
+                }
+            }
+
+            return allStatuses;
         }
 
         public static bool RequestDateIsValid(ReservationDatesModel reservationDates, DateTime date)

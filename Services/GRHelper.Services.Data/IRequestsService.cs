@@ -5,13 +5,14 @@
     using System.Threading.Tasks;
 
     using GRHelper.Services.Data.Models;
+    using GRHelper.Web.ViewModels.Administration.Requests;
     using GRHelper.Web.ViewModels.Guests.Requests;
 
     public interface IRequestsService
     {
         IEnumerable<T> All<T>();
 
-        IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate);
+        IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses);
 
         IEnumerable<T> AllByReservationId<T>(int id);
 

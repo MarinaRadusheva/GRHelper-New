@@ -12,6 +12,7 @@
     using GRHelper.Data.Models;
     using GRHelper.Services.Data.Models;
     using GRHelper.Services.Mapping;
+    using GRHelper.Web.ViewModels.Administration.Requests;
     using GRHelper.Web.ViewModels.Guests.Requests;
     using GRHelper.Web.ViewModels.Guests.Reservations;
     using Microsoft.EntityFrameworkCore;
@@ -32,7 +33,7 @@
             return this.requests.AllAsNoTracking().To<T>().ToList();
         }
 
-        public IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate)
+        public IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses)
         {
             var requests = this.requests.AllAsNoTracking();
             var dateToday = DateTime.UtcNow.Date;
@@ -45,6 +46,11 @@
                     || (r.IsDaily && ((r.EndDate >= startDate && r.EndDate <= endDate) || (startDate >= r.Date && r.EndDate <= endDate) || (r.Date <= startDate && r.EndDate >= endDate)))),
                 _ => throw new ArgumentException("Invalid date parameter"),
             };
+            if (statuses.Any(s => s.Selected == true))
+            {
+                var selectedStatusesList = GetSelectedStatuses(statuses).ToList();
+                requests = requests.Where(r => selectedStatusesList.Contains(r.RequestStatus));
+            }
 
             return requests.To<T>().ToList();
         }
@@ -215,6 +221,32 @@
             }
 
             return paymentTypesToDisplay;
+        }
+
+        private static IEnumerable<RequestStatus> GetSelectedStatuses(List<StatusForRequestSearchModel> mf)
+        {
+            var statusList = new List<RequestStatus>();
+            var statusTypes = HelperMethods.GetEnumTypes<RequestStatus>();
+            foreach (var status in mf.Where(m => m.Selected == true))
+            {
+                    var listItem = statusTypes.FirstOrDefault(s => HelperMethods.GetAttribute<DisplayAttribute>(s).Name == status.DisplayName);
+                    statusList.Add(listItem);
+            }
+
+            return statusList;
+
+            //var statusList = new List<RequestStatus>();
+            //var statusTypes = HelperMethods.GetEnumTypes<RequestStatus>();
+            //foreach (var status in statuses)
+            //{
+            //    if (status.Value)
+            //    {
+            //        var listItem = statusTypes.FirstOrDefault(s => HelperMethods.GetAttribute<DisplayAttribute>(s).Name == status.Key);
+            //        statusList.Add(listItem);
+            //    }
+            //}
+
+            //return statusList;
         }
     }
 }
