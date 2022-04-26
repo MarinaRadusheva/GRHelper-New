@@ -33,7 +33,7 @@
             return this.requests.AllAsNoTracking().To<T>().ToList();
         }
 
-        public IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses)
+        public IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses, int? reservationNumber)
         {
             var requests = this.requests.AllAsNoTracking();
             var dateToday = DateTime.UtcNow.Date;
@@ -44,12 +44,17 @@
                 "tomorrow" => requests.Where(r => (r.IsDaily && (dateTomorrow >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateTomorrow == r.Date.Date)),
                 "custom" => requests.Where(r => (!r.IsDaily && (r.Date >= startDate && r.Date <= endDate))
                     || (r.IsDaily && ((r.EndDate >= startDate && r.EndDate <= endDate) || (startDate >= r.Date && r.EndDate <= endDate) || (r.Date <= startDate && r.EndDate >= endDate)))),
-                _ => throw new ArgumentException("Invalid date parameter"),
+                _ => requests,
             };
             if (statuses.Any(s => s.Selected == true))
             {
                 var selectedStatusesList = GetSelectedStatuses(statuses).ToList();
                 requests = requests.Where(r => selectedStatusesList.Contains(r.RequestStatus));
+            }
+
+            if (reservationNumber != null)
+            {
+                requests = requests.Include(r => r.Reservation).Where(r => r.Reservation.Number == reservationNumber);
             }
 
             return requests.To<T>().ToList();

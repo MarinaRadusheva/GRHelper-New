@@ -8,37 +8,43 @@
 <div id="searchRequestsDiv">
     <form method="get" asp-area="Administration" asp-controller="Requests" asp-action="AllSearch">
         <div class="form-group">
-            <label asp-for="DatePicker"></label>
+            <label asp-for="DatePicker" style="margin-right:20px; font-weight:bold">Dates:</label>
             <label for="today">Today</label>
-            <input name="datePicker" type="radio" id="today" value="today" class="mr-3" checked=@(@Model.DatePicker == "today") />
-            <label for="tomorrow">Tomorrow</label> 
-            <input name="datePicker" type="radio" id="tomorrow" value="tomorrow" class="mr-3" checked=@(@Model.DatePicker == "tomorrow") />
+            <input name="datePicker" onchange=ToggleDateFields()  type="radio" id="today" value="today" class="mr-3" checked=@(@Model.DatePicker == "today") />
+            <label for="tomorrow">Tomorrow</label>
+            <input name="datePicker" onchange=ToggleDateFields()  type="radio" id="tomorrow" value="tomorrow" class="mr-3" checked=@(@Model.DatePicker == "tomorrow") />
             <span class="ml-3 mr-3 font-weight-bold">or</span>
-                <label for="custom" class="ml-3">Choose dates</label>
-                <input name="datePicker" type="radio" id="custom" value="custom" class="mr-3" checked=@(@Model.DatePicker == "custom") />
-                <label asp-for="From">From:</label>
-                <input asp-for="From" asp-value=@Model.From.ToShortDateString()/>
-                <label asp-for="To">To:</label>
-                <input asp-for="To" asp-value=@Model.To.ToShortDateString()/>
+            <label for="custom" class="ml-3">Choose dates</label>
+            <input name="datePicker" onchange=ToggleDateFields() type="radio" id="custom" value="custom" class="mr-3" checked=@(@Model.DatePicker == "custom") />
+            <label asp-for="From" style="margin-left: 15px">From:</label>
+            <input asp-for="From" asp-value=@Model.From.ToShortDateString() disabled="@(Model.DatePicker == "custom" ? null : "disabled")" />
+            <label asp-for="To">To:</label>
+            <input asp-for="To" asp-value=@Model.To.ToShortDateString() disabled="@(Model.DatePicker == "custom" ? null : "disabled")" />
         </div>
-        <div class="form-group">
-            <label asp-for="Statuses">Status</label>
-            @for(int i=0; i<@Model.Statuses.Count; i++)
-            {
-                <label asp-for="@Model.Statuses[i].Selected">@Model.Statuses[i].DisplayName</label>
-                <input type="checkbox" asp-for="@Model.Statuses[i].Selected" class="form-check-inline" />
-                <input type="hidden" asp-for="@Model.Statuses[i].DisplayName" />
-                <input type="hidden" asp-for="@Model.Statuses[i].EnumString" />
-                <input type="hidden" asp-for="@Model.Statuses[i].EnumValue" />
- 
-            }
-            
+        <div class="form-row" style="width:85%">
+            <div class="form-group">
+                <label asp-for="Statuses" style="margin-left:5px; margin-right:20px; font-weight:bold">Status:</label>
+                @for (int i = 0; i < @Model.Statuses.Count; i++)
+                {
+                    <label asp-for="@Model.Statuses[i].Selected">@Model.Statuses[i].DisplayName</label>
+                    <input type="checkbox" asp-for="@Model.Statuses[i].Selected" class="form-check-inline" />
+                    <input type="hidden" asp-for="@Model.Statuses[i].DisplayName" />
+                    <input type="hidden" asp-for="@Model.Statuses[i].EnumString" />
+                    <input type="hidden" asp-for="@Model.Statuses[i].EnumValue" />
+
+                }
+            </div>
+            <div class="form-group" style="margin-left:auto; margin-right:auto">
+                <label asp-for="ReservationNumber" style="margin-right:8px; font-weight:bold">Reservation:</label>
+                <input asp-for="ReservationNumber" class="form-control-sm" />
+            </div>
         </div>
-        <input type="submit" class="btn btn-info" value="Search"/>
+
+        <input type="submit" class="btn btn-info btn-block" value="Search" />
     </form>
 </div>
 <hr />
-@if(this.Context.Request.RouteValues["action"].ToString() == "All")
+@if (this.Context.Request.RouteValues["action"].ToString() == "All")
 {
     <h2>Requests for today.</h2>
 }
@@ -48,3 +54,21 @@ else
 }
 
 <partial name="_RequestsTablePartial" model=@Model.Requests />
+
+@section Scripts{
+    <script>
+        function ToggleDateFields(){
+            let customChecked = document.getElementById('custom').checked;
+            var fromField = document.getElementById('From');
+            var toField = document.getElementById('To');
+            if(!customChecked){
+                fromField.disabled="true";
+                toField.disabled="true";
+            }
+            else{
+                fromField.removeAttribute("disabled");
+                toField.removeAttribute("disabled");
+            }
+        }
+    </script>
+}

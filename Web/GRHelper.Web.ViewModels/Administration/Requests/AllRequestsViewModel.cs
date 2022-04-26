@@ -17,5 +17,7 @@
         public DateTime To { get; set; }
 
         public List<StatusForRequestSearchModel> Statuses { get; set; }
+
+        public int? ReservationNumber { get; set; }
     }
 }

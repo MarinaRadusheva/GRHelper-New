@@ -1,10 +1,11 @@
 ﻿namespace GRHelper.Web.Areas.Administration.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+
     using GRHelper.Services.Data;
     using GRHelper.Web.ViewModels.Administration.Requests;
     using Microsoft.AspNetCore.Mvc;
-    using System;
-    using System.Collections.Generic;
 
     public class RequestsController : AdministrationController
     {
@@ -28,16 +29,17 @@
             return this.View(model);
         }
 
-        public IActionResult AllSearch(string datePicker, DateTime from, DateTime to, List<StatusForRequestSearchModel> statuses)
+        public IActionResult AllSearch(string datePicker, DateTime from, DateTime to, List<StatusForRequestSearchModel> statuses, int? reservationNumber)
         {
-            var requests = this.requestsService.All<RequestListViewModel>(datePicker, from, to, statuses);
+            var requests = this.requestsService.All<RequestListViewModel>(datePicker, from, to, statuses, reservationNumber);
             var model = new AllRequestsViewModel()
             {
                 Requests = requests,
                 DatePicker = datePicker,
                 Statuses = statuses,
-                From = from.Date,
-                To = to.Date,
+                From = from.Date == DateTime.MinValue ? DateTime.UtcNow.Date : from,
+                To = to.Date == DateTime.MinValue ? DateTime.UtcNow.Date : to,
+                ReservationNumber = reservationNumber,
             };
             return this.View("All", model);
         }

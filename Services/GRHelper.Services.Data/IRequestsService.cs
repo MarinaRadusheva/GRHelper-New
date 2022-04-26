@@ -12,7 +12,7 @@
     {
         IEnumerable<T> All<T>();
 
-        IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses);
+        IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses, int? reservationNumber);
 
         IEnumerable<T> AllByReservationId<T>(int id);
 
