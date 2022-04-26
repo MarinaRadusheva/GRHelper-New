@@ -3,17 +3,14 @@
 
 @model IEnumerable<GRHelper.Web.ViewModels.BaseRequestListViewModel>
 
+@{var userIsEmployee = this.User.IsInRole(GlobalConstants.EmployeeRoleName);}
 @if (!Model.Any())
 {
     <h3>There aren't any requests to show.</h3>
 }
 else
 {
-    if (this.User.IsInRole(GlobalConstants.AdministratorRoleName))
-    {
-        <h1>ADMIN</h1>
-    }
-
+    <hr />
     <table class="table table-bordered table-light table-striped requestsTable">
         <tr>
             <th class="col-1">Res.<br />No</th>
@@ -54,7 +51,7 @@ else
                     @request.RequestStatus
                 </td>
                 <td>
-                    <vc:manage-request-buttons request-id=@request.Id status=@request.RequestStatus start-date=@request.Date end-date=@request.EndDate></vc:manage-request-buttons>                        
+                    <vc:manage-request-buttons is-employee=@userIsEmployee request-id=@request.Id status=@request.RequestStatus start-date=@request.Date end-date=@request.EndDate></vc:manage-request-buttons>                        
                 </td>
             </tr>
         }

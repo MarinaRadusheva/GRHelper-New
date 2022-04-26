@@ -55,12 +55,14 @@
             {
                 if (enumValue != 0)
                 {
+                    var validValues = new int[] { 1, 2, 3 };
+                    var selected = validValues.Contains((int)enumValue);
                     allStatuses.Add(new StatusForRequestSearchModel
                     {
                         DisplayName = HelperMethods.GetAttribute<DisplayAttribute>(enumValue).Name,
                         EnumString = enumValue.ToString(),
                         EnumValue = (int)enumValue,
-                        Selected = false,
+                        Selected = selected,
                     });
                 }
             }

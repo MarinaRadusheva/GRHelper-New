@@ -36,16 +36,8 @@
         public IEnumerable<T> All<T>(string datePicker, DateTime startDate, DateTime endDate, List<StatusForRequestSearchModel> statuses, int? reservationNumber)
         {
             var requests = this.requests.AllAsNoTracking();
-            var dateToday = DateTime.UtcNow.Date;
-            var dateTomorrow = dateToday.AddDays(1);
-            requests = datePicker switch
-            {
-                "today" => requests.Where(r => (r.IsDaily && (dateToday >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateToday == r.Date.Date)),
-                "tomorrow" => requests.Where(r => (r.IsDaily && (dateTomorrow >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateTomorrow == r.Date.Date)),
-                "custom" => requests.Where(r => (!r.IsDaily && (r.Date >= startDate && r.Date <= endDate))
-                    || (r.IsDaily && ((r.EndDate >= startDate && r.EndDate <= endDate) || (startDate >= r.Date && r.EndDate <= endDate) || (r.Date <= startDate && r.EndDate >= endDate)))),
-                _ => requests,
-            };
+            requests = FilterByDate(requests, datePicker, startDate, endDate);
+
             if (statuses.Any(s => s.Selected == true))
             {
                 var selectedStatusesList = GetSelectedStatuses(statuses).ToList();
@@ -210,7 +202,7 @@
             var paymentTypesToDisplay = new List<PaymentTypeForRequest>();
             if (serviceInfo.Paid)
             {
-                var paymentTypes = HelperMethods.GetPaymentTypes();
+                var paymentTypes = HelperMethods.GetEnumTypes<PaymentType>();
                 foreach (var payType in paymentTypes)
                 {
                     if (payType.ToString() != "Free")
@@ -239,19 +231,20 @@
             }
 
             return statusList;
+        }
 
-            //var statusList = new List<RequestStatus>();
-            //var statusTypes = HelperMethods.GetEnumTypes<RequestStatus>();
-            //foreach (var status in statuses)
-            //{
-            //    if (status.Value)
-            //    {
-            //        var listItem = statusTypes.FirstOrDefault(s => HelperMethods.GetAttribute<DisplayAttribute>(s).Name == status.Key);
-            //        statusList.Add(listItem);
-            //    }
-            //}
-
-            //return statusList;
+        private static IQueryable<Request> FilterByDate(IQueryable<Request> requests, string datepicker, DateTime startDate, DateTime endDate)
+        {
+            var dateToday = DateTime.UtcNow.Date;
+            var dateTomorrow = dateToday.AddDays(1);
+            return datepicker switch
+            {
+                "today" => requests.Where(r => (r.IsDaily && (dateToday >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateToday == r.Date.Date)),
+                "tomorrow" => requests.Where(r => (r.IsDaily && (dateTomorrow >= r.Date && dateToday <= r.EndDate)) || (!r.IsDaily && dateTomorrow == r.Date.Date)),
+                "custom" => requests.Where(r => (!r.IsDaily && (r.Date >= startDate && r.Date <= endDate))
+                    || (r.IsDaily && ((r.EndDate >= startDate && r.EndDate <= endDate) || (startDate >= r.Date && r.EndDate <= endDate) || (r.Date <= startDate && r.EndDate >= endDate)))),
+                _ => requests,
+            };
         }
     }
 }
