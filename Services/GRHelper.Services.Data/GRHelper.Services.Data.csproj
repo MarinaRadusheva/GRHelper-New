@@ -24,6 +24,7 @@
     <ProjectReference Include="..\..\GRHelper.Common\GRHelper.Common.csproj" />
     <ProjectReference Include="..\..\Web\GRHelper.Web.ViewModels\GRHelper.Web.ViewModels.csproj" />
     <ProjectReference Include="..\GRHelper.Services.Mapping\GRHelper.Services.Mapping.csproj" />
+    <ProjectReference Include="..\GRHelper.Services.Messaging\GRHelper.Services.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

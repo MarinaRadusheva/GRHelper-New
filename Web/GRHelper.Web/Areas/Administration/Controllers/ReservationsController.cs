@@ -2,10 +2,12 @@
 {
     using System;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using GRHelper.Data.Common;
     using GRHelper.Services.Data;
+    using GRHelper.Services.Messaging;
     using GRHelper.Web.ViewModels.Administration.Reservations;
     using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +15,13 @@
     {
         private readonly IReservationsService reservationsService;
         private readonly IVillasService villasService;
+        private readonly IEmailSender emailSender;
 
-        public ReservationsController(IReservationsService resService, IVillasService villasService)
+        public ReservationsController(IReservationsService resService, IVillasService villasService, IEmailSender emailSender)
         {
             this.reservationsService = resService;
             this.villasService = villasService;
+            this.emailSender = emailSender;
         }
 
         public IActionResult All(int id = 1)
@@ -67,9 +71,9 @@
                 return this.View(model);
             }
 
-            await this.reservationsService.CreateAsync(model);
+            int resId = await this.reservationsService.CreateAsync(model);
 
-            return this.RedirectToAction(nameof(this.All));
+            return this.RedirectToAction(nameof(this.Details), new { id = resId });
         }
 
         public async Task<IActionResult> Details(int id)
@@ -113,6 +117,22 @@
                 ReservationsCount = results.Count(),
             };
             return this.View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SendPassword(int id)
+        {
+            try
+            {
+                var success = await this.reservationsService.SendPassword(id);
+                this.TempData["Success"] = true;
+            }
+            catch
+            {
+                this.TempData["Success"] = false;
+            }
+
+            return this.RedirectToAction(nameof(this.Details), new { id });
         }
     }
 }

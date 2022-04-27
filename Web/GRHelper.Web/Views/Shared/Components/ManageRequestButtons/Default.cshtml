@@ -3,7 +3,7 @@
 @if (@Model.IsEmployee)
 {
 <a asp-area="Administration" asp-controller="Requests" asp-action="ChangeStatus" asp-route-id="@Model.Id" asp-route-btnText="@Model.ChangeBtnText" class=@(@Model.CanChange ? "btn btn-outline-info ml-1" : "btn btn-secondary ml-1 disabled")>@Model.ChangeBtnText</a>
-<a asp-area="Administration" asp-controller="Requests" asp-action="Cancel" asp-route-id="@Model.Id" class=@(@Model.CanCancel ? "btn btn-info ml-1" : "btn btn-secondary ml-1 disabled")>Cancel</a>
+<a asp-area="Administration" asp-controller="Requests" asp-action="Cancel" asp-route-id="@Model.Id" class=@(@Model.CanCancel ? "btn btn-outline-danger ml-1" : "btn btn-secondary ml-1 disabled")>Cancel</a>
 }
 else
 {    

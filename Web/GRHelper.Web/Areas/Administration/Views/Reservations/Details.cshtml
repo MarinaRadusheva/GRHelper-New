@@ -4,6 +4,14 @@
 }
 
 <h1>Reservation details</h1>
+@if(this.TempData["Success"] != null)
+{
+    bool success = (bool)this.TempData["Success"];
+    var message = success ? "Sent." : "Could not send password.";
+    <div id="hideMe" class="mt-2" style="@(@success ? "background-color:darkseagreen" : "background-color:rosybrown"); font-size:large; border-style:solid; border-radius:10px; padding:7px">
+        @message
+    </div>
+}
 <hr />
 <table id="reservationDetailsTable" class="table table-bordered">
     <tr>
@@ -48,9 +56,12 @@
         </span>
         </td>
         <td>
-            <button class="btn btn-outline-info">
+            <form method="post" asp-area="Administration" asp-controller="Reservations" asp-action="SendPassword" asp-route-id="@Model.Id">
+                 <button class="btn btn-outline-info">
             Resend password
             </button>
+            </form>
+           
         </td>
     </tr>
 </table>

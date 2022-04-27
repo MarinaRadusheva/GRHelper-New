@@ -8,7 +8,7 @@
 
     public interface IReservationsService
     {
-        Task CreateAsync(CreateReservationInputModel input);
+        Task<int> CreateAsync(CreateReservationInputModel input);
 
         int GetCount(bool active);
 
@@ -33,5 +33,6 @@
         bool Unlock(int id, string password, string userId);
 
         bool UserIsOwner(int reservationId, string userId);
+        Task<bool> SendPassword(int id);
     }
 }

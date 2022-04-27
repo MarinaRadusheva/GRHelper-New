@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Text;
     using System.Threading.Tasks;
 
     using GRHelper.Common;
@@ -11,6 +12,7 @@
     using GRHelper.Data.Models;
     using GRHelper.Services.Data.Models;
     using GRHelper.Services.Mapping;
+    using GRHelper.Services.Messaging;
     using GRHelper.Web.ViewModels.Administration.Reservations;
     using Microsoft.EntityFrameworkCore;
 
@@ -18,13 +20,16 @@
     {
         private readonly IDeletableEntityRepository<Reservation> reservations;
         private readonly IDeletableEntityRepository<Villa> villas;
+        private readonly IEmailSender emailSender;
 
         public ReservationsService(
             IDeletableEntityRepository<Reservation> reservations,
-            IDeletableEntityRepository<Villa> villas)
+            IDeletableEntityRepository<Villa> villas,
+            IEmailSender emailSender)
         {
             this.reservations = reservations;
             this.villas = villas;
+            this.emailSender = emailSender;
         }
 
         public IEnumerable<T> All<T>(bool active, int pageNumber)
@@ -72,7 +77,7 @@
             return reservations.AsQueryable().To<T>().ToList();
         }
 
-        public async Task CreateAsync(CreateReservationInputModel input)
+        public async Task<int> CreateAsync(CreateReservationInputModel input)
         {
             var reservation = new Reservation
             {
@@ -89,6 +94,8 @@
 
             await this.reservations.AddAsync(reservation);
             await this.reservations.SaveChangesAsync();
+            await this.SendPassword(reservation.Id);
+            return reservation.Id;
         }
 
         public async Task EditAsync(EditReservationInputModel input)
@@ -232,6 +239,27 @@
             }
 
             return result;
+        }
+
+        public async Task<bool> SendPassword(int id)
+        {
+            try
+            {
+                var reservation = await this.GetByIdAsync<ReservationDetailsViewModel>(id);
+                var receiver = reservation.Email;
+                var html = new StringBuilder();
+                html.AppendLine("<h2>Hello from your Guest Relations Team at Vaya Beach Resort!</h2>");
+                html.AppendLine("<h4>Thank you for booking with us!</h4>");
+                html.AppendLine($"<p>You can easily contact us and manage your request to our team through our web application.</p><p>Your reservations is No. <span style='font-weight:bold'>{reservation.Number}</span> and the password is <span style='font-weight:bold'>{reservation.Password}</span>.</p>");
+                html.AppendLine("<h4>We are looking forward to welcoming you for a memorable vacation!</h4>");
+                await this.emailSender.SendEmailAsync("MarinaRadusheva@students.softuni.bg", "VayaBeach", receiver, "Reservation password", html.ToString());
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
