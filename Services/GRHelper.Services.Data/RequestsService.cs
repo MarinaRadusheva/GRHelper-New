@@ -116,6 +116,7 @@
         {
             return this.requests.AllAsNoTracking()
                 .Where(r => r.ReservationId == id)
+                .OrderByDescending(r => r.Date)
                 .To<T>()
                 .ToList();
         }

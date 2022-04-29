@@ -144,5 +144,11 @@
 
             return this.RedirectToAction(nameof(this.Details), new { id });
         }
+
+        public IActionResult GetByNumber(int id)
+        {
+            var res = this.reservationsService.GetBySearchTerms<ReservationDetailsViewModel>(id).FirstOrDefault();
+            return this.View("Details", res);
+        }
     }
 }

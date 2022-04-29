@@ -67,5 +67,11 @@
             await this.requestsService.UpdateStatus(RequestStatus.Cancelled.ToString(), id);
             return this.RedirectToAction(nameof(this.AllToday));
         }
+
+        public IActionResult AllByReservation(int id)
+        {
+            var requests = this.requestsService.AllByReservationId<RequestListViewModel>(id);
+            return this.View(requests);
+        }
     }
 }

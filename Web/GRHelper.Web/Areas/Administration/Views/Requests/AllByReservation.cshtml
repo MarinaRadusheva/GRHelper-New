@@ -1,0 +1,10 @@
+﻿@model IEnumerable<GRHelper.Web.ViewModels.Administration.Requests.RequestListViewModel>
+@{
+    this.ViewData["Title"] = "Requests by reservation";
+}
+
+<h1>Requests</h1>
+<hr />
+<h2>Requests for reservation @Model.FirstOrDefault().ReservationNumber </h2>
+
+<partial name="_RequestsTablePartial" model=@Model />

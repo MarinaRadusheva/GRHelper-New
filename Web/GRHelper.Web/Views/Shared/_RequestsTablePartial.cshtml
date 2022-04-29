@@ -27,7 +27,15 @@ else
         {
             <tr>
                 <td>
-                    @request.ReservationNumber
+                    @if (userIsEmployee)
+                    {
+                        <a asp-area="Administration" asp-controller="Reservations" asp-action="GetByNumber" asp-route-id=@request.ReservationNumber>@request.ReservationNumber</a>
+                    }
+                    else
+                    {
+                        @request.ReservationNumber
+                    }
+                    
                 </td>
                 <td>
                     @request.HotelServiceName

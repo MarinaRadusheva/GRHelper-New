@@ -54,6 +54,8 @@
                .Include(r => r.Requests)
                .Where(r => r.To < DateTime.UtcNow.Date)
                .OrderByDescending(r => r.From)
+               .Skip((pageNumber - 1) * GlobalConstants.ItemsPerPage)
+               .Take(GlobalConstants.ItemsPerPage)
                .AsQueryable()
                .To<T>()
                .ToList();
