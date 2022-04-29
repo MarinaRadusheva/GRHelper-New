@@ -94,7 +94,6 @@
 
             await this.reservations.AddAsync(reservation);
             await this.reservations.SaveChangesAsync();
-            await this.SendPassword(reservation.Id);
             return reservation.Id;
         }
 
@@ -222,24 +221,24 @@
             return this.reservations.AllAsNoTracking().Any(r => r.Id == reservationId && r.GuestId == userId);
         }
 
-        private Func<Reservation, bool> GetMatches(string searchTerm)
-        => res => this.SearchMatches(res, a => a.Name, searchTerm);
+        //private Func<Reservation, bool> GetMatches(string searchTerm)
+        //=> res => this.SearchMatches(res, a => a.Name, searchTerm);
 
-        private bool SearchMatches<T>(T res, Func<T, string> fun, string searchTerm)
-        {
-            var words = searchTerm.Split(" ").ToArray();
-            var result = false;
-            for (int i = 0; i < words.Length; i++)
-            {
-                if (fun(res).ToLower().Contains(words[i].ToLower()))
-                {
-                    result = true;
-                    break;
-                }
-            }
+        //private bool SearchMatches<T>(T res, Func<T, string> fun, string searchTerm)
+        //{
+        //    var words = searchTerm.Split(" ").ToArray();
+        //    var result = false;
+        //    for (int i = 0; i < words.Length; i++)
+        //    {
+        //        if (fun(res).ToLower().Contains(words[i].ToLower()))
+        //        {
+        //            result = true;
+        //            break;
+        //        }
+        //    }
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public async Task<bool> SendPassword(int id)
         {

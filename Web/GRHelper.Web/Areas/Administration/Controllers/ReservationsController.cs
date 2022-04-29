@@ -71,9 +71,19 @@
                 return this.View(model);
             }
 
-            int resId = await this.reservationsService.CreateAsync(model);
+            try
+            {
+                int resId = await this.reservationsService.CreateAsync(model);
+                await this.reservationsService.SendPassword(resId);
 
-            return this.RedirectToAction(nameof(this.Details), new { id = resId });
+                return this.RedirectToAction(nameof(this.Details), new { id = resId });
+            }
+            catch
+            {
+                this.ViewData["Error"] = "Could not add reservation. Try again.";
+                model.Villas = this.villasService.GetVillaNumbers();
+                return this.View(model);
+            }
         }
 
         public async Task<IActionResult> Details(int id)

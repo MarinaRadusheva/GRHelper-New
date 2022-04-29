@@ -1,16 +1,13 @@
-﻿using GRHelper.Data.Common.Repositories;
-using GRHelper.Data.Models;
-using GRHelper.Data.Repositories;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace GRHelper.Services.Data.Tests
+﻿namespace GRHelper.Services.Data.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using GRHelper.Data.Common.Repositories;
+    using GRHelper.Data.Models;
+    using Moq;
+    using Xunit;
+
     public class VillaServiceTests
     {
         public List<Villa> TestData => new List<Villa>()

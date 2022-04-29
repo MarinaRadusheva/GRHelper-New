@@ -12,6 +12,6 @@
 
         public const string ArchivedRequestsRouteId = "Archive";
 
-        public const int ItemsPerPage = 3;
+        public const int ItemsPerPage = 7;
     }
 }
