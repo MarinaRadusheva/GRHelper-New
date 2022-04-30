@@ -92,13 +92,16 @@
             await this.requests.SaveChangesAsync();
         }
 
-        public async Task EditAsync(EditRequestInputModel input)
+        public async Task EditAsync(EditRequestInputModel input, DateTime? endDate)
         {
             var requestToEdit = this.requests.All().FirstOrDefault(r => r.Id == input.Id);
+            decimal? price = this.CalculatePrice(input);
             requestToEdit.IsDaily = input.IsDaily;
             requestToEdit.Date = input.Date;
             requestToEdit.Time = input.Time;
+            requestToEdit.EndDate = endDate;
             requestToEdit.GuestCount = input.GuestCount;
+            requestToEdit.Price = price;
             requestToEdit.PaymentType = (PaymentType)Enum.Parse(typeof(PaymentType), input.PaymentType);
             this.requests.Update(requestToEdit);
             await this.requests.SaveChangesAsync();
@@ -246,6 +249,25 @@
                     || (r.IsDaily && ((r.EndDate >= startDate && r.EndDate <= endDate) || (startDate >= r.Date && r.EndDate <= endDate) || (r.Date <= startDate && r.EndDate >= endDate)))),
                 _ => requests,
             };
+        }
+
+        private decimal? CalculatePrice(EditRequestInputModel input)
+        {
+            decimal? price = null;
+            if (input.PaymentType != "Free")
+            {
+                var hotelService = this.hotelServices.AllAsNoTracking().Include(s => s.SubCategory).FirstOrDefault(s => s.Id == input.HotelServiceId);
+                if (hotelService.SubCategory.Name == "Transfer")
+                {
+                    price = hotelService.Price;
+                }
+                else
+                {
+                    price = input.GuestCount * hotelService.Price;
+                }
+            }
+
+            return price;
         }
     }
 }

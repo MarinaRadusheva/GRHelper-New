@@ -6,11 +6,18 @@
 <h1>Edit Request</h1>
 <h5>@Model.Title</h5>
 <hr />
-
+@if(this.ViewData["Message"] != null){
+     <div id="hideMe" class="mt-2" style="background-color:rosybrown; font-size:large; border-style:solid; border-radius:10px; padding:7px">
+        @this.ViewData["Message"]
+    </div>
+}
 <form method="post">
+    <p asp-validation-summary></p>
     <input type="hidden" asp-for="Id" value=@Model.Id/>
+    <input type="hidden" asp-for="Title" value=@Model.Title/>
     <input type="hidden" asp-for="HotelServiceId" value=@Model.HotelServiceId />
     <input type="hidden" asp-for="ReservationId" value=@Model.ReservationId />
+    <input type="hidden" asp-for="PaymentTypes" value=@Model.PaymentTypes />
     <div class="form-group">
         <label asp-for="IsDaily">Daily service</label>
         <input asp-for="IsDaily" class="form-check-inline" checked="@Model.IsDaily" />

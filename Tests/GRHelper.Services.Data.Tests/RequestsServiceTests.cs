@@ -184,22 +184,24 @@
             {
                 Id = 1,
                 Date = DateTime.UtcNow.AddDays(3),
-                IsDaily = false,
+                IsDaily = true,
                 GuestCount = 1,
-                PaymentType = PaymentType.Cash.ToString(),
+                PaymentType = PaymentType.Free.ToString(),
                 Time = DateTime.UtcNow.AddMinutes(5).TimeOfDay,
                 ReservationId = 1,
             };
+            DateTime? endDate = edit.Date.AddDays(2);
 
             // Act
-            await reqService.EditAsync(edit);
+            await reqService.EditAsync(edit, endDate);
             var edited = this.reqRepo.AllAsNoTracking().FirstOrDefault(r => r.Id == 1);
 
             // Assert
             Assert.NotEqual(initial.Date, edited.Date);
             Assert.NotEqual(initial.GuestCount, edited.GuestCount);
-            Assert.NotEqual(initial.PaymentType, edited.PaymentType);
             Assert.NotEqual(initial.Time, edited.Time);
+            Assert.NotEqual(initial.IsDaily, edited.IsDaily);
+            Assert.NotEqual(initial.EndDate, edited.EndDate);
         }
 
         [Theory]

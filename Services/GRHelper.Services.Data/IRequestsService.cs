@@ -26,7 +26,7 @@
 
         Task CreateAsync(CreateRequestInputModel input, DateTime? endDate);
 
-        Task EditAsync(EditRequestInputModel input);
+        Task EditAsync(EditRequestInputModel input, DateTime? endDate);
 
         Task UpdateStatus(string status, int id);
 

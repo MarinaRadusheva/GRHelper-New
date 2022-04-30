@@ -103,12 +103,28 @@
         [HttpPost]
         public async Task<IActionResult> Edit(EditRequestInputModel model)
         {
-            if (!this.ModelState.IsValid)
+            var reservationDates = await this.reservationsService.GetByIdAsync<ReservationDatesModel>(model.ReservationId);
+            var dateIsValid = HelperMethods.RequestDateIsValid(reservationDates, model.Date);
+
+            if (!dateIsValid || !this.ModelState.IsValid)
             {
+                if (!dateIsValid)
+                {
+                    this.ViewData["Message"] = "Date must be during the reservation.";
+                }
+
+                var serviceInfo = this.hotelServicesService.GetServiceForRequest(model.HotelServiceId);
+                model = this.requestsService.GenerateEditModel(model, serviceInfo);
                 return this.View(model);
             }
 
-            await this.requestsService.EditAsync(model);
+            DateTime? endDate = null;
+            if (model.IsDaily)
+            {
+                endDate = reservationDates.To.Date;
+            }
+
+            await this.requestsService.EditAsync(model, endDate);
             return this.RedirectToAction(nameof(this.MyRequests));
         }
 
